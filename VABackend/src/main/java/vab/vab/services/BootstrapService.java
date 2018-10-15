@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
+import vab.vab.exception.VAException;
 import vab.vab.model.CountryYear;
 
 import java.io.File;
@@ -228,7 +229,8 @@ public class BootstrapService {
     }
 
     private Stream<String> readLines(String name) throws Exception{
-        File file = new File(ClassLoader.getSystemClassLoader().getResource("static/" + name + ".csv").getFile());
+        File file = ResourceUtils.getFile("classpath:static/" + name + ".csv");
+        //File file = new File(ClassLoader.getSystemClassLoader().getResource("static/" + name + ".csv").getFile());
         return Files.lines(file.toPath());
     }
 }
