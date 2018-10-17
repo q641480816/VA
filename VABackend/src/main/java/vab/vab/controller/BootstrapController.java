@@ -23,13 +23,13 @@ public class BootstrapController {
 
     @RequestMapping(value = "/start", method = RequestMethod.GET)
     @ResponseBody
-    public List<CountryYear> bootstrap()throws Exception {
+    public Map<String, Object> bootstrap()throws Exception {
         return bootstrapService.bootstrap();
     }
 
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     @ResponseBody
-    public List<CountryYear> getAllRecords()throws Exception {
+    public Map<String, Object> getAllRecords()throws Exception {
         return bootstrapService.getDataSet();
     }
 }

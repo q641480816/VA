@@ -5,24 +5,21 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import vab.vab.exception.VAException;
-import vab.vab.model.CountryYear;
+import vab.vab.model.*;
 
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
 public class BootstrapService {
 
-    @Value("${data.smokers}")
-    private String smokers;
+    @Value("${data.prevalenceInPercent}")
+    private String prevalenceInPercent;
 
     @Value("${data.maleSmoker}")
     private String maleSmoker;
@@ -39,13 +36,17 @@ public class BootstrapService {
     @Value("${data.smokeDeath}")
     private String smokeDeath;
 
-    private List<CountryYear> dataSet;
+    private static String YEAR = "years";
+
+    private static String DATA = "data";
+
+    private Map<String, Object> alldata;
 
     @Cacheable("bootstrapData")
-    public List<CountryYear> bootstrap() throws Exception{
+    public Map<String, Object> bootstrap() throws Exception{
 
         //get smoke
-        List<CountryYear> smokers = getSmokers();
+        List<CountryYear> prevalenceInPercent = getSmokers();
         //get male smoker
         List<CountryYear> maleSmokers = getMaleSmokers();
         //get female smoker
@@ -57,20 +58,38 @@ public class BootstrapService {
         //get cancer smoke death
         List<CountryYear> cancerSmokeDeath = getCancerSmokeDeath();
 
-        return aggregateCountryYear(smokers, maleSmokers, femaleSmokers, dailySmokeConsumption, smokeDeath, cancerSmokeDeath);
+        return aggregateCountryYear(prevalenceInPercent, maleSmokers, femaleSmokers, dailySmokeConsumption, smokeDeath, cancerSmokeDeath);
     }
 
-    public List<CountryYear> getDataSet() throws Exception{
-        return dataSet == null ? bootstrap() : dataSet;
+    public Map<String, Object> getDataSet() throws Exception{
+        return alldata == null ? bootstrap() : alldata;
     }
 
-    private List<CountryYear> aggregateCountryYear(List<CountryYear> smokers, List<CountryYear> maleSmokers, List<CountryYear> femaleSmokers,
+    private Map<String, Object> aggregateCountryYear(List<CountryYear> prevalenceInPercent, List<CountryYear> maleSmokers, List<CountryYear> femaleSmokers,
                                                    List<CountryYear> dailySmokeConsumption, List<CountryYear> smokeDeath, List<CountryYear> cancerSmokeDeath){
 
         //Clean up key
+        Map<String, Map<String, Object>> typeYearSet = new HashMap<>();
         HashMap<String, CountryYear> countryYearSet = new HashMap<>();
-        //do smoker
-        for (CountryYear cy: smokers){
+
+        //do prevalenceInPercent
+        HashMap<String, Object> prevalenceInPercentData = new HashMap<>();
+        HashMap<String, List<CountryYearPrevalence>> prevalenceYearlyData = new HashMap<>();
+        List<String> prevalenceYears = new ArrayList<>();
+        for (CountryYear cy: prevalenceInPercent){
+            //type year
+            CountryYearPrevalence cyp = new CountryYearPrevalence(cy);
+            if (!prevalenceYearlyData.containsKey(cy.getYear().trim())){
+                prevalenceYears.add(cy.getYear().trim());
+                List<CountryYearPrevalence> data = new ArrayList<>();
+                data.add(cyp);
+                prevalenceYearlyData.put(cy.getYear().trim(), data);
+            }else {
+                List<CountryYearPrevalence> data = prevalenceYearlyData.get(cy.getYear().trim());
+                data.add(cyp);
+                prevalenceYearlyData.put(cy.getYear().trim(), data);
+            }
+            //all
             if(countryYearSet.containsKey(cy.getKey())){
                 CountryYear cyExist = countryYearSet.get(cy.getKey());
                 cyExist.setPrevalenceInPercent(cy.getPrevalenceInPercent());
@@ -79,8 +98,29 @@ public class BootstrapService {
                 countryYearSet.put(cy.getKey(), cy);
             }
         }
+        Collections.sort(prevalenceYears);
+        prevalenceInPercentData.put(YEAR, prevalenceYears);
+        prevalenceInPercentData.put(DATA, prevalenceYearlyData);
+        typeYearSet.put(this.prevalenceInPercent, prevalenceInPercentData);
+
         //do male smoker
+        HashMap<String, Object> maleSmokerData = new HashMap<>();
+        HashMap<String, List<CountryYearMaleSmoker>> maleSmokerYearlyData = new HashMap<>();
+        List<String> maleSmokerYears = new ArrayList<>();
         for (CountryYear cy: maleSmokers){
+            //type year
+            CountryYearMaleSmoker cyms = new CountryYearMaleSmoker(cy);
+            if (!maleSmokerYearlyData.containsKey(cy.getYear().trim())){
+                maleSmokerYears.add(cy.getYear().trim());
+                List<CountryYearMaleSmoker> data = new ArrayList<>();
+                data.add(cyms);
+                maleSmokerYearlyData.put(cy.getYear().trim(), data);
+            }else {
+                List<CountryYearMaleSmoker> data = maleSmokerYearlyData.get(cy.getYear().trim());
+                data.add(cyms);
+                maleSmokerYearlyData.put(cy.getYear().trim(), data);
+            }
+            //all
             if(countryYearSet.containsKey(cy.getKey())){
                 CountryYear cyExist = countryYearSet.get(cy.getKey());
                 cyExist.setMaleInPercent(cy.getMaleInPercent());
@@ -89,8 +129,29 @@ public class BootstrapService {
                 countryYearSet.put(cy.getKey(), cy);
             }
         }
+        Collections.sort(maleSmokerYears);
+        maleSmokerData.put(YEAR, maleSmokerYears);
+        maleSmokerData.put(DATA, maleSmokerYearlyData);
+        typeYearSet.put(this.maleSmoker, maleSmokerData);
+
         //do female smoker
+        HashMap<String, Object> femaleSmokerData = new HashMap<>();
+        HashMap<String, List<CountryYearFemaleSmoker>> femaleSmokerYearlyData = new HashMap<>();
+        List<String> femaleSmokerYears = new ArrayList<>();
         for (CountryYear cy: femaleSmokers){
+            //type year
+            CountryYearFemaleSmoker cyfs = new CountryYearFemaleSmoker(cy);
+            if (!femaleSmokerYearlyData.containsKey(cy.getYear().trim())){
+                femaleSmokerYears.add(cy.getYear().trim());
+                List<CountryYearFemaleSmoker> data = new ArrayList<>();
+                data.add(cyfs);
+                femaleSmokerYearlyData.put(cy.getYear().trim(), data);
+            }else {
+                List<CountryYearFemaleSmoker> data = femaleSmokerYearlyData.get(cy.getYear().trim());
+                data.add(cyfs);
+                femaleSmokerYearlyData.put(cy.getYear().trim(), data);
+            }
+            //all
             if(countryYearSet.containsKey(cy.getKey())){
                 CountryYear cyExist = countryYearSet.get(cy.getKey());
                 cyExist.setFemaleInPercent(cy.getFemaleInPercent());
@@ -99,8 +160,29 @@ public class BootstrapService {
                 countryYearSet.put(cy.getKey(), cy);
             }
         }
+        Collections.sort(femaleSmokerYears);
+        femaleSmokerData.put(YEAR, femaleSmokerYears);
+        femaleSmokerData.put(DATA, femaleSmokerYearlyData);
+        typeYearSet.put(this.femaleSmoker, femaleSmokerData);
+
         //do dailySmokeConsumption
+        HashMap<String, Object> dailySmokeConsumptionData = new HashMap<>();
+        HashMap<String, List<CountryYearDailyConsumption>> dailySmokeConsumptionYearlyData = new HashMap<>();
+        List<String> dailySmokeConsumptionYears = new ArrayList<>();
         for (CountryYear cy: dailySmokeConsumption){
+            //type year
+            CountryYearDailyConsumption cydc = new CountryYearDailyConsumption(cy);
+            if (!dailySmokeConsumptionYearlyData.containsKey(cy.getYear().trim())){
+                dailySmokeConsumptionYears.add(cy.getYear().trim());
+                List<CountryYearDailyConsumption> data = new ArrayList<>();
+                data.add(cydc);
+                dailySmokeConsumptionYearlyData.put(cy.getYear().trim(), data);
+            }else {
+                List<CountryYearDailyConsumption> data = dailySmokeConsumptionYearlyData.get(cy.getYear().trim());
+                data.add(cydc);
+                dailySmokeConsumptionYearlyData.put(cy.getYear().trim(), data);
+            }
+            //all
             if(countryYearSet.containsKey(cy.getKey())){
                 CountryYear cyExist = countryYearSet.get(cy.getKey());
                 cyExist.setDailyConsumption(cy.getDailyConsumption());
@@ -109,8 +191,29 @@ public class BootstrapService {
                 countryYearSet.put(cy.getKey(), cy);
             }
         }
+        Collections.sort(dailySmokeConsumptionYears);
+        dailySmokeConsumptionData.put(YEAR, dailySmokeConsumptionYears);
+        dailySmokeConsumptionData.put(DATA, dailySmokeConsumptionYearlyData);
+        typeYearSet.put(this.dailySmokeConsumption, dailySmokeConsumptionData);
+
         //do smokeDeath
+        HashMap<String, Object> smokeDeathData = new HashMap<>();
+        HashMap<String, List<CountryYearSmokeDeath>> smokeDeathYearlyData = new HashMap<>();
+        List<String> smokeDeathYears = new ArrayList<>();
         for (CountryYear cy: smokeDeath){
+            //type year
+            CountryYearSmokeDeath cysd = new CountryYearSmokeDeath(cy);
+            if (!smokeDeathYearlyData.containsKey(cy.getYear().trim())){
+                smokeDeathYears.add(cy.getYear().trim());
+                List<CountryYearSmokeDeath> data = new ArrayList<>();
+                data.add(cysd);
+                smokeDeathYearlyData.put(cy.getYear().trim(), data);
+            }else {
+                List<CountryYearSmokeDeath> data = smokeDeathYearlyData.get(cy.getYear().trim());
+                data.add(cysd);
+                smokeDeathYearlyData.put(cy.getYear().trim(), data);
+            }
+            //all
             if(countryYearSet.containsKey(cy.getKey())){
                 CountryYear cyExist = countryYearSet.get(cy.getKey());
                 cyExist.setDeath(cy.getDeath());
@@ -119,8 +222,29 @@ public class BootstrapService {
                 countryYearSet.put(cy.getKey(), cy);
             }
         }
-        //do smokeDeath
+        Collections.sort(smokeDeathYears);
+        smokeDeathData.put(YEAR, smokeDeathYears);
+        smokeDeathData.put(DATA, smokeDeathYearlyData);
+        typeYearSet.put(this.smokeDeath, smokeDeathData);
+
+        //do smokeCancerDeath
+        HashMap<String, Object> cancerSmokeDeathData = new HashMap<>();
+        HashMap<String, List<CountryYearCancerSmokeDeath>> cancerSmokeDeathYearlyData = new HashMap<>();
+        List<String> cancerSmokeDeathYears = new ArrayList<>();
         for (CountryYear cy: cancerSmokeDeath){
+            //type year
+            CountryYearCancerSmokeDeath cycsd = new CountryYearCancerSmokeDeath(cy);
+            if (!cancerSmokeDeathYearlyData.containsKey(cy.getYear().trim())){
+                cancerSmokeDeathYears.add(cy.getYear().trim());
+                List<CountryYearCancerSmokeDeath> data = new ArrayList<>();
+                data.add(cycsd);
+                cancerSmokeDeathYearlyData.put(cy.getYear().trim(), data);
+            }else {
+                List<CountryYearCancerSmokeDeath> data = cancerSmokeDeathYearlyData.get(cy.getYear().trim());
+                data.add(cycsd);
+                cancerSmokeDeathYearlyData.put(cy.getYear().trim(), data);
+            }
+            //all
             if(countryYearSet.containsKey(cy.getKey())){
                 CountryYear cyExist = countryYearSet.get(cy.getKey());
                 cyExist.setCancerDeathInPercent(cy.getCancerDeathInPercent());
@@ -129,13 +253,21 @@ public class BootstrapService {
                 countryYearSet.put(cy.getKey(), cy);
             }
         }
+        Collections.sort(cancerSmokeDeathYears);
+        cancerSmokeDeathData.put(YEAR, cancerSmokeDeathYears);
+        cancerSmokeDeathData.put(DATA, cancerSmokeDeathYearlyData);
+        typeYearSet.put(this.smokerCancerDeath, cancerSmokeDeathData);
 
-         dataSet = countryYearSet.values().stream()
+         List<CountryYear> dataSet = countryYearSet.values().stream()
                  .parallel()
                  .filter(a -> a.getYear().length() > 0)
                 .sorted(Comparator.comparing(CountryYear::getKey)).collect(Collectors.toList());
 
-        return dataSet;
+         HashMap<String, Object> allData = new HashMap<>();
+         allData.put("dataSet", dataSet);
+         allData.put("typeYearDataSet", typeYearSet);
+         this.alldata = allData;
+         return allData;
     }
 
     private List<CountryYear> getSmokers()throws Exception{
