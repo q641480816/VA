@@ -143,6 +143,7 @@ public class BootstrapService {
                 .parallel()
                 .skip(1)
                 .map(a -> a.split(","))
+                .filter(a -> (a[2]).length()> 0 && (a[1]).length() > 0)
                 .map(a -> {
                     CountryYear cy = new CountryYear();
                     cy.setCountryName(a[0]);
@@ -158,6 +159,7 @@ public class BootstrapService {
                 .parallel()
                 .skip(1)
                 .map(a -> a.split(","))
+                .filter(a -> (a[2]).length()> 0 && (a[1]).length() > 0)
                 .map(a -> {
                     CountryYear cy = new CountryYear();
                     cy.setCountryName(a[0]);
@@ -173,6 +175,7 @@ public class BootstrapService {
                 .parallel()
                 .skip(1)
                 .map(a -> a.split(","))
+                .filter(a -> (a[2]).length()> 0 && (a[1]).length() > 0)
                 .map(a -> {
                     CountryYear cy = new CountryYear();
                     cy.setCountryName(a[0]);
@@ -188,6 +191,7 @@ public class BootstrapService {
                 .parallel()
                 .skip(1)
                 .map(a -> a.split(","))
+                .filter(a -> (a[2]).length()> 0 && (a[1]).length() > 0)
                 .map(a -> {
                     CountryYear cy = new CountryYear();
                     cy.setCountryName(a[0]);
@@ -203,6 +207,7 @@ public class BootstrapService {
                 .parallel()
                 .skip(1)
                 .map(a -> a.split(","))
+                .filter(a -> (a[2]).length()> 0 && (a[1]).length() > 0)
                 .map(a -> {
                     CountryYear cy = new CountryYear();
                     cy.setCountryName(a[0]);
@@ -218,6 +223,7 @@ public class BootstrapService {
                 .parallel()
                 .skip(1)
                 .map(a -> a.split(","))
+                .filter(a -> (a[2]).length()> 0 && (a[1]).length() > 0)
                 .map(a -> {
                     CountryYear cy = new CountryYear();
                     cy.setCountryName(a[0]);

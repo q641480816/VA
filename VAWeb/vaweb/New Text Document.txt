@@ -1,0 +1,11 @@
+private double prevalenceInPercent;
+
+    private double maleInPercent;
+
+    private double femaleInPercent;
+
+    private double dailyConsumption;
+
+    private int death;
+
+    private double cancerDeathInPercent;

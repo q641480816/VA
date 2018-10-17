@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+
 import './App.css';
 
 import Home from "./js/home/home";
@@ -6,7 +8,9 @@ import Home from "./js/home/home";
 class App extends Component {
   render() {
     return (
-     <Home/>
+        <BrowserRouter>
+            <Home/>
+        </BrowserRouter>
     );
   }
 }

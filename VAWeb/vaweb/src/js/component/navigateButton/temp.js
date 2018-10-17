@@ -6,19 +6,17 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
     root: {
-        display: 'block',
+        display: 'flex',
+        flexWrap: 'wrap',
         minWidth: '160px;',
-        width: '90%',
-        height: '8.5vh',
-        minHeight: '60px',
-        margin: 'auto',
-        padding: 'auto'
+        width: '100%',
+        height: '20vh'
     },
     image: {
         position: 'relative',
         height: 200,
         [theme.breakpoints.down('xs')]: {
-            width: '50% !important', // Overrides inline-style
+            width: '100% !important', // Overrides inline-style
             height: 100,
         },
         '&:hover, &$focusVisible': {
@@ -67,7 +65,7 @@ const styles = theme => ({
     },
     imageTitle: {
         position: 'relative',
-        padding: `${theme.spacing.unit * 1}px ${theme.spacing.unit * 6}px ${theme.spacing.unit + 4}px`,
+        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 10}px ${theme.spacing.unit + 6}px`,
     },
     imageMarked: {
         height: 3,
@@ -80,8 +78,21 @@ const styles = theme => ({
     },
 });
 
-function NavigationButton(props) {
-    const { classes, images } = props;
+const images = [
+    {
+        url: 'https://imgcs.artprintimages.com/img/print/print/pela-design-old-world-map_a-l-9730967-0.jpg?w=550&h=550',
+        title: 'World',
+        width: '50%',
+    },
+    {
+        url: 'https://cmkt-image-prd.global.ssl.fastly.net/0.1.0/ps/3531131/1360/906/m1/fpnw/wm1/wyxjobfaj3tqsfffecuvn3asvh9jutaao5tv8wmi2petimokkb1ksubbpbazinh2-.jpg?1509966990&s=5858246a1eae64c71c048b64d355653b',
+        title: 'Data',
+        width: '50%',
+    },
+];
+
+function ButtonBases(props) {
+    const { classes } = props;
 
     return (
         <div className={classes.root}>
@@ -93,21 +104,15 @@ function NavigationButton(props) {
                     focusVisibleClassName={classes.focusVisible}
                     style={{
                         width: image.width,
-                        height: '8.5vh',
-                        minHeight: '60px'
+                        height: '20vh',
+                        minHeight: '80px'
                     }}
-                    onClick={image.func}
                 >
                     <span className={classes.imageSrc} style={{backgroundImage: `url(${image.url})`,}}/>
-                    <span className={classes.imageBackdrop} />
+                    <span className={classes.imageBackdrop}/>
                     <span className={classes.imageButton}>
-                        <Typography
-                            component="span"
-                            variant="subtitle1"
-                            color="inherit"
-                            className={classes.imageTitle}
-                        >
-                          {image.title}
+                        <Typography component="span" variant="subtitle1" color="inherit" className={classes.imageTitle}>
+                            {image.title}
                             <span className={classes.imageMarked} />
                         </Typography>
                     </span>
@@ -117,9 +122,8 @@ function NavigationButton(props) {
     );
 }
 
-NavigationButton.propTypes = {
+ButtonBases.propTypes = {
     classes: PropTypes.object.isRequired,
-    images: PropTypes.array.isRequired
 };
 
-export default withStyles(styles)(NavigationButton);
+export default withStyles(styles)(ButtonBases);
