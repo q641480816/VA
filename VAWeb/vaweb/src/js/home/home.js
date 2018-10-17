@@ -16,6 +16,7 @@ class Home extends Component{
     constructor(props) {
         super(props);
         this.state = {
+            data: null,
             history: null
         };
 
@@ -57,7 +58,10 @@ class Home extends Component{
                 'Content-Type':'application/json'
             }})
             .then(response => response.json())
-            .then(data => console.log(data))
+            .then(data => {
+                utilData.allData = data;
+                this.setState({data: data});
+            })
             .catch(e => console.log(e));
     };
 
@@ -70,7 +74,10 @@ class Home extends Component{
     };
 
     renderMap = () => {
-        return (<Map/>);
+        if (this.state.data != null){
+            return (<Map data={this.state.data}/>);
+        }
+        return <div/>
     };
 
     render() {
