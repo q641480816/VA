@@ -18,6 +18,7 @@ class MapElement extends Component{
 
         this.drawMap = this.drawMap.bind(this);
         this.clearMap = this.clearMap.bind(this);
+        this.getPupUp = this.getPupUp.bind(this);
     }
 
     componentWillMount(){
@@ -45,6 +46,15 @@ class MapElement extends Component{
         this.clearMap();
     }
 
+    getPupUp = (geography, data) => {
+        return(
+            '<div class="hoverinfo" style="display: flex; flex-direction: column">' +
+                '<span>' + geography.properties.name + '</span>' +
+                '<span style="margin-top: 5px;">' + data.numberOfThings + '</span>' +
+            '</div>'
+            )
+    };
+
     drawMap = (data) => {
         let map = new Datamaps({
             scope: 'world',
@@ -65,6 +75,7 @@ class MapElement extends Component{
                     return o['fillColor'] || '#ddd';
                 },
                 highlightOnHover: true,
+                popupTemplate: (geography, data) => this.getPupUp(geography, data)
             }
         });
         return map;

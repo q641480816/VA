@@ -67,7 +67,7 @@ const styles = theme => ({
     },
     imageTitle: {
         position: 'relative',
-        padding: `${theme.spacing.unit * 1}px ${theme.spacing.unit * 6}px ${theme.spacing.unit + 4}px`,
+        padding: `${theme.spacing.unit * 0.75}px ${theme.spacing.unit * 6}px ${theme.spacing.unit + 0.75}px`,
     },
     imageMarked: {
         height: 3,
@@ -94,20 +94,15 @@ function NavigationButton(props) {
                     style={{
                         width: image.width,
                         height: '8.5vh',
-                        minHeight: '60px'
+                        minHeight: '40px'
                     }}
                     onClick={image.func}
                 >
                     <span className={classes.imageSrc} style={{backgroundImage: `url(${image.url})`,}}/>
                     <span className={classes.imageBackdrop} />
                     <span className={classes.imageButton}>
-                        <Typography
-                            component="span"
-                            variant="subtitle1"
-                            color="inherit"
-                            className={classes.imageTitle}
-                        >
-                          {image.title}
+                        <Typography component="span" color="inherit" className={classes.imageTitle}>
+                            {image.title}
                             <span className={classes.imageMarked} />
                         </Typography>
                     </span>

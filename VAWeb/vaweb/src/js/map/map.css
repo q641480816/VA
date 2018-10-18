@@ -9,7 +9,22 @@
     min-height: 35px;
 }
 
-.configBar{
-    height: 7vh;
-    min-height: 45px;
+.timeBar{
+    width: 50vw;
+    min-height: 20px;
 }
+
+.slider{
+    position: relative;
+    min-height: 20px;
+    padding-top: 12px;
+}
+
+.bottom{
+    display: flex;
+    margin: auto;
+    flex-direction: row;
+    width: 55vw;
+    padding-top: 17px;
+}
+
