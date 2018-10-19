@@ -22,9 +22,10 @@ class MapElement extends Component{
     }
 
     componentWillMount(){
+        window.addEventListener("resize", ()=>{});
         this.setState({
             mapClass: this.props.mapClass,
-            data: this.props.data
+            data: this.props.data,
         });
     }
 
@@ -35,11 +36,23 @@ class MapElement extends Component{
     }
 
     componentWillReceiveProps(nextProps) {
-        this.clearMap();
-        this.setState({
-            data: nextProps.data,
-            map: this.drawMap(nextProps.data)
-        })
+        if (nextProps.data !== this.state.data) {
+            let map = this.state.map;
+            map.updateChoropleth(nextProps.data);
+            this.setState({
+                data: nextProps.data,
+                map: map,
+                mapClass: nextProps.mapClass
+            });
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        //responsive map
+        if (this.state.mapClass !== prevState.mapClass) {
+            this.clearMap();
+            this.setState({map: this.drawMap()});
+        }
     }
 
     componentWillUnmount() {
@@ -47,10 +60,11 @@ class MapElement extends Component{
     }
 
     getPupUp = (geography, data) => {
+        let content = data === null ? 'No Data Available' : data.numberOfThings;
         return(
             '<div class="hoverinfo" style="display: flex; flex-direction: column">' +
                 '<span>' + geography.properties.name + '</span>' +
-                '<span style="margin-top: 5px;">' + data.numberOfThings + '</span>' +
+                '<span style="margin-top: 5px;">' + content + '</span>' +
             '</div>'
             )
     };

@@ -9,7 +9,8 @@ import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import Slider from '@material-ui/lab/Slider';
-import {PlayArrow, Pause} from '@material-ui/icons'
+import {PlayArrow, Pause, Lens} from '@material-ui/icons';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import MapElement from "./mapElement/mapElement";
 
@@ -27,7 +28,8 @@ class Map extends Component{
             selectedType: "prevalenceInPercent",
             yearSet: [],
             yearSelected: 0,
-            isAutoPlay: false
+            isAutoPlay: false,
+            mapBoxHeight: 72
         };
 
         this.styles = this.props.classes;
@@ -35,9 +37,12 @@ class Map extends Component{
         this.prepareMapClass = this.prepareMapClass.bind(this);
         this.processData = this.processData.bind(this);
         this.renderSelectType = this.renderSelectType.bind(this);
+        this.renderDescription = this.renderDescription.bind(this);
+        this.renderSlider = this.renderSlider.bind(this);
         this.onSelectTypeChange = this.onSelectTypeChange.bind(this);
         this.play = this.play.bind(this);
         this.togglePlay = this.togglePlay.bind(this);
+        this.mapResize = this.mapResize.bind(this);
     }
 
     componentWillMount(){
@@ -46,10 +51,15 @@ class Map extends Component{
             data: this.props.data,
             yearSet: this.props.data["typeYearDataSet"][this.state.selectedType]["years"],
         });
-        console.log(this.props.data["typeYearDataSet"][this.state.selectedType]["years"])
     }
 
-    componentDidMount(){}
+    componentDidMount(){
+        window.addEventListener("resize", this.mapResize);
+    }
+
+    componentWillUnmount(){
+        window.removeEventListener("resize", this.mapResize);
+    }
 
     renderSelectType = () => {
         return (
@@ -70,16 +80,43 @@ class Map extends Component{
         )
     };
 
+    renderSlider = () => {
+        return (
+            <div className={"timeBar"}>
+                <Slider className={"slider"} value={this.state.yearSelected} min={0} max={this.state.yearSet.length-1} step={1}
+                    onChange={(event, value)=>{this.setState({yearSelected:value})}}
+                    thumb={<Tooltip title={this.state.yearSet[this.state.yearSelected]}><Lens style={{ color: '#2196f3' }} /></Tooltip>}/>
+            </div>
+        );
+    };
+
+    renderDescription = () => {
+        return (
+            <div className={'description'}>
+                <span className={this.styles.descriptionContent}>
+                    {utilData.typePair[this.state.selectedType].description + this.state.yearSet[this.state.yearSelected]}
+                 </span>
+            </div>
+        );
+    };
+
+    mapResize = () => {
+        this.setState({mapClass: this.prepareMapClass()});
+    };
+
     prepareMapClass = () => {
-        let height =  document.documentElement.clientHeight * 0.83;
+        let height =  document.documentElement.clientHeight * 0.72;
         let width = height/5*9;
+        if (width >= document.documentElement.clientWidth){
+            width = document.documentElement.clientWidth - 20;
+            height = width/9*5;
+        }
         return {
             position: 'relative',
             marginLeft: "auto",
             marginRight: 'auto',
-            marginBottom: '-50px',
             height: height+"px",
-            width: width+"px",
+            width: width+"px"
         }
     };
 
@@ -140,20 +177,21 @@ class Map extends Component{
             <div className={"map-base"}>
                 <Card>
                     <AppBar position="static" className={this.styles.configBar}>
-                        <Toolbar style={{minHeight: '50px'}}>
+                        <Toolbar style={{minHeight: '35px', height:'6vh'}}>
                             {this.renderSelectType()}
                         </Toolbar>
                     </AppBar>
-                    <MapElement mapClass={this.state.mapClass} data={this.processData()}/>
+                    {this.renderDescription()}
+                    <div className={this.styles.mapContainer}>
+                        <MapElement mapClass={this.state.mapClass} data={this.processData()}/>
+                    </div>
                 </Card>
-                <div style={{width: '100vw', height: '5vh'}}>
+                <div style={{width: '100vw', height: '6vh'}}>
                     <div className={"bottom"}>
                         <div style={{width: '3vw', minWidth:'25px'}}>
                             {this.state.isAutoPlay ? <Pause onClick={()=>this.togglePlay(false)}/> : <PlayArrow onClick={()=>this.togglePlay(true)}/>}
                         </div>
-                        <div className={"timeBar"}>
-                            <Slider className={"slider"} value={this.state.yearSelected} min={0} max={this.state.yearSet.length-1} step={1} onChange={(event, value)=>{this.setState({yearSelected:value})}}/>
-                        </div>
+                        {this.renderSlider()}
                     </div>
                 </div>
             </div>
@@ -178,8 +216,30 @@ const styles = theme => ({
     configBar: {
         borderRadius: 0,
         height: '6vh',
-        minHeight: '45px',
+        minHeight: '35px',
         backgroundColor: '#ffffff'
+    },
+    descriptionContent: {
+        [theme.breakpoints.down('xs')]: {
+            fontSize: '17px !important',
+        },
+        [theme.breakpoints.up('sm')]: {
+            fontSize: '24px !important',
+            fonWeight: 'bold',
+        },
+        [theme.breakpoints.up('md')]: {
+            fontSize: '33px !important',
+            fonWeight: 'bold',
+        }
+    },
+    mapContainer: {
+        width: '100vw',
+        [theme.breakpoints.down('xs')]: {
+            height: '69vh'
+        },
+        [theme.breakpoints.up('sm')]: {
+            height: '72vh'
+        }
     }
 });
 

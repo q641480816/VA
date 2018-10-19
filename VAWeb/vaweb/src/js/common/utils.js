@@ -4,27 +4,33 @@ const utilData= {
     typePair: {
         prevalenceInPercent : {
             display: "Prevalence",
-            key: 'prevalenceInPercent'
+            key: 'prevalenceInPercent',
+            description: 'Prevalence Rate in '
         },
         maleInPercent : {
             display: "Male Smoker",
-            key: 'maleInPercent'
+            key: 'maleInPercent',
+            description: 'Male adult smoking percent in '
         },
         femaleInPercent : {
             display: "Female Smoker",
-            key: 'femaleInPercent'
+            key: 'femaleInPercent',
+            description: 'Female adult smoking percent in '
         },
         dailyConsumption : {
             display: "Daily Tobacco Consumption",
-            key: 'dailyConsumption'
+            key: 'dailyConsumption',
+            description: 'Average daily consumption in '
         },
         death: {
             display: 'Death due to smoke',
-            key: 'death'
+            key: 'death',
+            description: 'Death due to smoking in '
         },
         cancerDeathInPercent: {
             display: 'Cancer contribution',
-            key: 'cancerDeathInPercent'
+            key: 'cancerDeathInPercent',
+            description: 'Cancer contribution to smoking Death in '
         }
     }
 };
