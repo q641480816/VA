@@ -1,5 +1,5 @@
 const utilData= {
-    fetchUrl: "http://localhost:8080/bootstrap/getAll",
+    fetchUrl: "http://www.callmedady.com:8080/vab/bootstrap/getAll",
     allData: null,
     typePair: {
         prevalenceInPercent : {
