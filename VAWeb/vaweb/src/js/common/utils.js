@@ -37,3 +37,5 @@ const utilData= {
 };
 
 export default utilData;
+
+// sudo cp -a . /var/www/
