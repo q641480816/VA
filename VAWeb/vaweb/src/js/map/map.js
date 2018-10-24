@@ -121,27 +121,59 @@ class Map extends Component{
     };
 
     processData = () => {
+        let resource = {};
         let key = utilData.typePair[this.state.selectedType]["key"];
         let data = this.state.data["typeYearDataSet"][key]["data"][this.state.yearSet[this.state.yearSelected]];
+        let legend = this.state.data["typeYearDataSet"][key]["legend"];
 
         let dataset = {};
+
         let onlyValues = data.map((o) => {
             return o[key];
         });
 
         //calculate color
-        let minValue = Math.min.apply(null, onlyValues), maxValue = Math.max.apply(null, onlyValues);
         let paletteScale = scaleLinear()
-            .domain([minValue,maxValue])
+            .domain([0, legend != null ? legend[legend.length - 1] : Math.max.apply(null, onlyValues)])
             .range(["#EFEFFF","#02386F"]);
+
+        //prepare legend
+        let separator = this.state.data["typeYearDataSet"][key]["legendSeparator"];
+        let legendSet = [];
+        if (legend){
+            for (let i = 0; i < legend.length - 1; i++){
+                legendSet.push({
+                    display: legend[i] + separator + " - " + legend[i + 1] + separator,
+                    color: paletteScale(legend[i]),
+                    value: [legend[i], legend[i + 1]],
+                    valueSet: []
+                })
+            }
+            legendSet.push({
+                display: "> " + legend[legend.length-1] + separator,
+                color: paletteScale(legend[legend.length-1]),
+                value: [legend[legend.length-1], Number.MAX_SAFE_INTEGER],
+                valueSet: []
+            })
+        }
 
         //prepare data
         data.forEach((o) => { //
             let iso = o.countryCode, value = o[key];
             dataset[iso] = { numberOfThings: value, fillColor: paletteScale(value) };
+            for(let i = 0; i < legendSet.length; i++){
+                let l = legendSet[i];
+                if (l.value[0] <= value && l.value[1] > value) {
+                    l.valueSet.push(iso);
+                }
+                legendSet[i] = l;
+            }
         });
 
-        return dataset;
+        resource.dataset = dataset;
+        resource.legendSet = legendSet;
+
+        return resource;
     };
 
     onSelectTypeChange = (event) => {
@@ -235,7 +267,7 @@ const styles = theme => ({
     mapContainer: {
         width: '100vw',
         [theme.breakpoints.down('xs')]: {
-            height: '69vh'
+            height: '60vh'
         },
         [theme.breakpoints.up('sm')]: {
             height: '72vh'

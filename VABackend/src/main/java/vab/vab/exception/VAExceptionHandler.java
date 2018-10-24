@@ -17,6 +17,7 @@ public class VAExceptionHandler implements HandlerExceptionResolver {
         mv.setView(view);
         mv.addObject("status", response.getStatus());
         mv.addObject("message", ex.getMessage());
+        ex.printStackTrace();
         return mv;
     }
 }

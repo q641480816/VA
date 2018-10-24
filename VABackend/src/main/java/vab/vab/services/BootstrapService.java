@@ -40,6 +40,10 @@ public class BootstrapService {
 
     private static String DATA = "data";
 
+    private static String LEGEND = "legend";
+
+    private static String LEGENDSEPRATOR = "legendSeparator";
+
     private Map<String, Object> alldata;
 
     @Cacheable("bootstrapData")
@@ -99,8 +103,11 @@ public class BootstrapService {
             }
         }
         Collections.sort(prevalenceYears);
+        int[] prevalenceInPercentLegend = new int[]{0, 10, 20, 30, 40, 50};
         prevalenceInPercentData.put(YEAR, prevalenceYears);
         prevalenceInPercentData.put(DATA, prevalenceYearlyData);
+        prevalenceInPercentData.put(LEGEND, prevalenceInPercentLegend);
+        prevalenceInPercentData.put(LEGENDSEPRATOR, "%");
         typeYearSet.put(this.prevalenceInPercent, prevalenceInPercentData);
 
         //do male smoker
@@ -130,8 +137,11 @@ public class BootstrapService {
             }
         }
         Collections.sort(maleSmokerYears);
+        int[] maleSmokerLegend = new int[]{0, 10, 20, 30, 40, 50};
         maleSmokerData.put(YEAR, maleSmokerYears);
         maleSmokerData.put(DATA, maleSmokerYearlyData);
+        maleSmokerData.put(LEGEND, maleSmokerLegend);
+        maleSmokerData.put(LEGENDSEPRATOR, "%");
         typeYearSet.put(this.maleSmoker, maleSmokerData);
 
         //do female smoker
@@ -161,8 +171,11 @@ public class BootstrapService {
             }
         }
         Collections.sort(femaleSmokerYears);
+        int[] femaleSmokerLegend = new int[]{0, 10, 20, 30, 40, 50};
         femaleSmokerData.put(YEAR, femaleSmokerYears);
         femaleSmokerData.put(DATA, femaleSmokerYearlyData);
+        femaleSmokerData.put(LEGEND, femaleSmokerLegend);
+        femaleSmokerData.put(LEGENDSEPRATOR, "%");
         typeYearSet.put(this.femaleSmoker, femaleSmokerData);
 
         //do dailySmokeConsumption
@@ -192,8 +205,11 @@ public class BootstrapService {
             }
         }
         Collections.sort(dailySmokeConsumptionYears);
+        int[] dailySmokeConsumptionLegend = new int[]{0, 10, 20, 30, 40, 50};
         dailySmokeConsumptionData.put(YEAR, dailySmokeConsumptionYears);
         dailySmokeConsumptionData.put(DATA, dailySmokeConsumptionYearlyData);
+        dailySmokeConsumptionData.put(LEGEND, dailySmokeConsumptionLegend);
+        dailySmokeConsumptionData.put(LEGENDSEPRATOR, "");
         typeYearSet.put(this.dailySmokeConsumption, dailySmokeConsumptionData);
 
         //do smokeDeath
@@ -254,8 +270,11 @@ public class BootstrapService {
             }
         }
         Collections.sort(cancerSmokeDeathYears);
+        int[] cancerSmokerDeathLegend = new int[]{0, 10, 20, 30, 40, 50};
         cancerSmokeDeathData.put(YEAR, cancerSmokeDeathYears);
         cancerSmokeDeathData.put(DATA, cancerSmokeDeathYearlyData);
+        cancerSmokeDeathData.put(LEGEND, cancerSmokerDeathLegend);
+        cancerSmokeDeathData.put(LEGENDSEPRATOR, "%");
         typeYearSet.put(this.smokerCancerDeath, cancerSmokeDeathData);
 
          List<CountryYear> dataSet = countryYearSet.values().stream()

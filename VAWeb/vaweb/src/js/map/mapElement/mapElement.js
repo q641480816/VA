@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import Datamaps from "datamaps/dist/datamaps.world.hires.min";
-
-import './mapElement.css';
+import {withStyles} from "@material-ui/core";
+import Tooltip from '@material-ui/core/Tooltip';
 
 class MapElement extends Component{
 
@@ -11,14 +11,23 @@ class MapElement extends Component{
         this.state = {
             mapClass: null,
             map: null,
-            data: null
+            data: null,
+            legendBlockSize: 7,
+            borderDefault: '#DEDEDE',
+            highlightBorderColor: '#FFFF00',
+            highlightStrokeWidth: 1,
+            defaultStrokeWidth: 0.45
         };
 
         this.mapRef = React.createRef();
+        this.styles = this.props.classes;
 
         this.drawMap = this.drawMap.bind(this);
         this.clearMap = this.clearMap.bind(this);
         this.getPupUp = this.getPupUp.bind(this);
+        this.renderLegend = this.renderLegend.bind(this);
+        this.onLegendBlockMouseOver = this.onLegendBlockMouseOver.bind(this);
+        this.onLegendBlockMouseOut = this.onLegendBlockMouseOut.bind(this);
     }
 
     componentWillMount(){
@@ -38,7 +47,7 @@ class MapElement extends Component{
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.state.data) {
             let map = this.state.map;
-            map.updateChoropleth(nextProps.data);
+            map.updateChoropleth(nextProps.data.dataset);
             this.setState({
                 data: nextProps.data,
                 map: map,
@@ -69,22 +78,23 @@ class MapElement extends Component{
             )
     };
 
-    drawMap = (data) => {
-        let map = new Datamaps({
+    drawMap = () => {
+        //USA
+        return new Datamaps({
             scope: 'world',
-            element: document.getElementById("container"),
+            element: document.getElementById("mapContainer"),
             projection: 'equirectangular',
             responsive: false,
             dataType: 'json',
             fills: {
                 defaultFill: '#ddd'
             },
-            data: data == null ? this.state.data : data,
+            data: this.state.data.dataset,
             geographyConfig: {
-                borderColor: '#DEDEDE',
-                borderWidth: 0.45,
-                highlightBorderColor: 'black',
-                highlightBorderWidth: 2,
+                borderColor: this.state.borderDefault,
+                borderWidth: this.state.defaultStrokeWidth,
+                highlightBorderColor: this.state.highlightBorderColor,
+                highlightBorderWidth: this.state.highlightStrokeWidth,
                 highlightFillColor: (o) => {
                     return o['fillColor'] || '#ddd';
                 },
@@ -92,7 +102,24 @@ class MapElement extends Component{
                 popupTemplate: (geography, data) => this.getPupUp(geography, data)
             }
         });
-        return map;
+    };
+
+    renderLegend = () => {
+        if (this.state.data.legendSet){
+            return(
+                <div className={this.styles.legendContainer}>
+                    <div className={this.styles.legendWrapper}
+                         style={{width: this.state.data.legendSet.length*this.state.legendBlockSize + "vw", minWidth: 38*this.state.data.legendSet.length+"px"}}>
+                        {this.state.data.legendSet.map((legend) => (
+                            <Tooltip title={legend.display} placement={"top"}>
+                                <div className={this.styles.legendBlock} style={{backgroundColor: legend.color, width: this.state.legendBlockSize + "vw"}}
+                                     onMouseOver={() => this.onLegendBlockMouseOver(legend.valueSet)} onMouseOut={() => this.onLegendBlockMouseOut()}/>
+                            </Tooltip>
+                        ))}
+                    </div>
+                </div>
+            )
+        }
     };
 
     clearMap = () => {
@@ -100,16 +127,73 @@ class MapElement extends Component{
         for (const child of Array.from(map.childNodes)) {map.removeChild(child);}
     };
 
+    onLegendBlockMouseOver = (values) => {
+        values.forEach((iso) => {
+            this.state.map.svg
+                .selectAll('.' + iso)
+                .transition()
+                .style('stroke-width', this.state.highlightStrokeWidth)
+                .style('stroke', this.state.highlightBorderColor);
+        });
+    };
+
+    onLegendBlockMouseOut = () => {
+        this.state.map.svg
+            .selectAll('.datamaps-subunit')
+            .transition()
+            .style('stroke', this.state.borderDefault);
+    };
+
     render() {
         return (
-            <div id="container" style={this.state.mapClass} ref={this.mapRef} />
+            <div>
+                <div id="mapContainer" style={this.state.mapClass} ref={this.mapRef} />
+                {this.renderLegend()}
+            </div>
         );
     }
 }
 
 MapElement.propTypes = {
     mapClass: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired
+    data: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
 };
 
-export default MapElement;
+const styles = theme => ({
+    legendContainer: {
+        position: 'relative',
+        width: '100vw',
+        [theme.breakpoints.down('xs')]: {
+            marginTop: '-10px',
+        },
+        [theme.breakpoints.up('sm')]: {
+            marginTop: '-20px',
+        },
+        [theme.breakpoints.up('md')]: {
+            marginTop: '-35px',
+        },
+    },
+    legendWrapper: {
+        position: 'relative',
+        margin: 'auto',
+        display: 'flex',
+        flexDirection: 'row'
+    },
+    legendBlock: {
+        position: 'relative',
+        zIndex: 100,
+        minWidth: '38px',
+        [theme.breakpoints.down('xs')]: {
+            height: '4px',
+        },
+        [theme.breakpoints.up('sm')]: {
+            height: '10px',
+        },
+        [theme.breakpoints.up('md')]: {
+            height: '12px'
+        }
+    }
+});
+
+export default withStyles(styles)(MapElement);
