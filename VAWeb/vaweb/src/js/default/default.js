@@ -18,7 +18,7 @@ class Default extends Component{
         return (
             <div className={this.styles.container}>
                 <div className={this.styles.titleWrapper}>
-                    <span className={this.styles.mainTitle}>Smoking Everyday</span>
+                    <span className={this.styles.mainTitle}>Smoke Till My Last Breath</span>
                 </div>
                 <div className={this.styles.titleWrapper} style={{marginTop: '22px'}}>
                     <span className={this.styles.subTitle}>Is So Good</span>
