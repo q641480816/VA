@@ -29,7 +29,8 @@ class Map extends Component{
             yearSet: [],
             yearSelected: 0,
             isAutoPlay: false,
-            mapBoxHeight: 72
+            mapBoxHeight: 72,
+            selectedArea: utilData.mapProjection[0]
         };
 
         this.styles = this.props.classes;
@@ -37,6 +38,7 @@ class Map extends Component{
         this.prepareMapClass = this.prepareMapClass.bind(this);
         this.processData = this.processData.bind(this);
         this.renderSelectType = this.renderSelectType.bind(this);
+        this.renderSelectArea = this.renderSelectArea.bind(this);
         this.renderDescription = this.renderDescription.bind(this);
         this.renderSlider = this.renderSlider.bind(this);
         this.onSelectTypeChange = this.onSelectTypeChange.bind(this);
@@ -64,7 +66,7 @@ class Map extends Component{
     renderSelectType = () => {
         return (
             <FormControl disabled={this.state.isAutoPlay}>
-                <Select name="type" displayEmpty value={this.state.selectedType} onChange={(event) => this.onSelectTypeChange(event)}>
+                <Select name="type" displayEmpty value={this.state.selectedType} onChange={(event) => this.onSelectTypeChange(event)} disableUnderline={true}>
                     <MenuItem value="" disabled key={""}>
                         Types
                     </MenuItem>
@@ -74,6 +76,26 @@ class Map extends Component{
                                     <span className={this.styles.menuItem}>{utilData.typePair[key].display}</span>
                                 </MenuItem>
                             )
+                    })}
+                </Select>
+            </FormControl>
+        )
+    };
+
+    renderSelectArea = () => {
+        return (
+            <FormControl disabled={this.state.isAutoPlay} style={{paddingLeft: '10px'}}>
+                <Select name="area" displayEmpty value={this.state.selectedArea}
+                        onChange={(event) => this.setState({selectedArea: event.target.value})} disableUnderline={true}>
+                    <MenuItem value="" disabled key={""}>
+                        Areas
+                    </MenuItem>
+                    {utilData.mapProjection.map((p) => {
+                        return (
+                            <MenuItem value={p} key={p.display}>
+                                <span className={this.styles.menuItem}>{p.display}</span>
+                            </MenuItem>
+                        )
                     })}
                 </Select>
             </FormControl>
@@ -105,18 +127,18 @@ class Map extends Component{
     };
 
     prepareMapClass = () => {
-        let height =  document.documentElement.clientHeight * 0.72;
-        let width = height/5*9;
+        let height =  document.documentElement.clientHeight * 0.65;
+        let width = height*11/5;
         if (width >= document.documentElement.clientWidth){
             width = document.documentElement.clientWidth - 20;
-            height = width/9*5;
+            height = width/11*5;
         }
         return {
             position: 'relative',
             marginLeft: "auto",
             marginRight: 'auto',
             height: height+"px",
-            width: width+"px"
+            width: width+"px",
         }
     };
 
@@ -211,11 +233,12 @@ class Map extends Component{
                     <AppBar position="static" className={this.styles.configBar}>
                         <Toolbar style={{minHeight: '35px', height:'6vh'}}>
                             {this.renderSelectType()}
+                            {this.renderSelectArea()}
                         </Toolbar>
                     </AppBar>
                     {this.renderDescription()}
                     <div className={this.styles.mapContainer}>
-                        <MapElement mapClass={this.state.mapClass} data={this.processData()}/>
+                        <MapElement mapClass={this.state.mapClass} data={this.processData()} selectedArea={this.state.selectedArea}/>
                     </div>
                 </Card>
                 <div style={{width: '100vw', height: '6vh'}}>
@@ -266,12 +289,9 @@ const styles = theme => ({
     },
     mapContainer: {
         width: '100vw',
-        [theme.breakpoints.down('xs')]: {
-            height: '60vh'
-        },
-        [theme.breakpoints.up('sm')]: {
-            height: '72vh'
-        }
+        height: '65vh',
+        paddingTop: '4.5vh',
+        paddingBottom: '2.5vh'
     }
 });
 

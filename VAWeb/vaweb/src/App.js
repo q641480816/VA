@@ -6,13 +6,17 @@ import './App.css';
 import Home from "./js/home/home";
 
 class App extends Component {
-  render() {
-    return (
-        <BrowserRouter>
-            <Home/>
-        </BrowserRouter>
-    );
-  }
+    componentDidMount(){
+        document.title = "Chainsmokers";
+    }
+
+    render() {
+        return (
+            <BrowserRouter>
+                <Home/>
+            </BrowserRouter>
+        );
+    }
 }
 
 export default App;

@@ -3,6 +3,10 @@ import PropTypes from "prop-types";
 import Datamaps from "datamaps/dist/datamaps.world.hires.min";
 import {withStyles} from "@material-ui/core";
 import Tooltip from '@material-ui/core/Tooltip';
+import * as d3 from "d3";
+import utilData from "../../common/utils";
+
+console.log(d3);
 
 class MapElement extends Component{
 
@@ -16,7 +20,8 @@ class MapElement extends Component{
             borderDefault: '#DEDEDE',
             highlightBorderColor: '#FFFF00',
             highlightStrokeWidth: 1,
-            defaultStrokeWidth: 0.45
+            defaultStrokeWidth: 0.45,
+            selectedArea: utilData.mapProjection[0]
         };
 
         this.mapRef = React.createRef();
@@ -35,6 +40,7 @@ class MapElement extends Component{
         this.setState({
             mapClass: this.props.mapClass,
             data: this.props.data,
+            selectedArea: this.props.selectedArea
         });
     }
 
@@ -45,15 +51,22 @@ class MapElement extends Component{
     }
 
     componentWillReceiveProps(nextProps) {
+        let map = this.state.map;
+
         if (nextProps.data !== this.state.data) {
-            let map = this.state.map;
             map.updateChoropleth(nextProps.data.dataset);
-            this.setState({
-                data: nextProps.data,
-                map: map,
-                mapClass: nextProps.mapClass
-            });
         }
+
+        if (nextProps.selectedArea !== this.state.selectedArea) {
+            map.svg.selectAll("g").attr("transform", nextProps.selectedArea.projection);
+        }
+
+        this.setState({
+            data: nextProps.data,
+            map: map,
+            mapClass: nextProps.mapClass,
+            selectedArea: nextProps.selectedArea
+        });
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -80,7 +93,7 @@ class MapElement extends Component{
 
     drawMap = () => {
         //USA
-        return new Datamaps({
+        let map = new Datamaps({
             scope: 'world',
             element: document.getElementById("mapContainer"),
             projection: 'equirectangular',
@@ -102,6 +115,9 @@ class MapElement extends Component{
                 popupTemplate: (geography, data) => this.getPupUp(geography, data)
             }
         });
+
+        map.svg.selectAll("g").attr("transform", this.state.selectedArea.projection);
+        return map;
     };
 
     renderLegend = () => {
@@ -111,7 +127,7 @@ class MapElement extends Component{
                     <div className={this.styles.legendWrapper}
                          style={{width: this.state.data.legendSet.length*this.state.legendBlockSize + "vw", minWidth: 38*this.state.data.legendSet.length+"px"}}>
                         {this.state.data.legendSet.map((legend) => (
-                            <Tooltip title={legend.display} placement={"top"}>
+                            <Tooltip title={legend.display} placement={"top"} key={legend.display}>
                                 <div className={this.styles.legendBlock} style={{backgroundColor: legend.color, width: this.state.legendBlockSize + "vw"}}
                                      onMouseOver={() => this.onLegendBlockMouseOver(legend.valueSet)} onMouseOut={() => this.onLegendBlockMouseOut()}/>
                             </Tooltip>
@@ -158,6 +174,7 @@ MapElement.propTypes = {
     mapClass: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
+    selectedArea: PropTypes.object.isRequired
 };
 
 const styles = theme => ({
@@ -165,13 +182,13 @@ const styles = theme => ({
         position: 'relative',
         width: '100vw',
         [theme.breakpoints.down('xs')]: {
-            marginTop: '-10px',
+            marginTop: '-5px',
         },
         [theme.breakpoints.up('sm')]: {
-            marginTop: '-20px',
+            marginTop: '-10px',
         },
         [theme.breakpoints.up('md')]: {
-            marginTop: '-35px',
+            marginTop: '-17px',
         },
     },
     legendWrapper: {
