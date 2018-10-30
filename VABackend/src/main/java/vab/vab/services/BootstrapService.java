@@ -44,6 +44,8 @@ public class BootstrapService {
 
     private static String LEGENDSEPRATOR = "legendSeparator";
 
+    private static String AVERAGE = "average";
+
     private Map<String, Object> alldata;
 
     @Cacheable("bootstrapData")
@@ -79,6 +81,7 @@ public class BootstrapService {
         //do prevalenceInPercent
         HashMap<String, Object> prevalenceInPercentData = new HashMap<>();
         HashMap<String, List<CountryYearPrevalence>> prevalenceYearlyData = new HashMap<>();
+        HashMap<String, Double> prevalenceYearlyAverageData = new HashMap<>();
         List<String> prevalenceYears = new ArrayList<>();
         for (CountryYear cy: prevalenceInPercent){
             //type year
@@ -103,16 +106,26 @@ public class BootstrapService {
             }
         }
         Collections.sort(prevalenceYears);
+        for (String y : prevalenceYears){
+            List<CountryYearPrevalence> data = prevalenceYearlyData.get(y);
+            double sum = data.stream()
+                    .parallel()
+                    .map(CountryYearPrevalence::getPrevalenceInPercent)
+                    .mapToDouble(Double::doubleValue).sum();
+            prevalenceYearlyAverageData.put(y, sum/data.size());
+        }
         int[] prevalenceInPercentLegend = new int[]{0, 10, 20, 30, 40, 50};
         prevalenceInPercentData.put(YEAR, prevalenceYears);
         prevalenceInPercentData.put(DATA, prevalenceYearlyData);
         prevalenceInPercentData.put(LEGEND, prevalenceInPercentLegend);
         prevalenceInPercentData.put(LEGENDSEPRATOR, "%");
+        prevalenceInPercentData.put(AVERAGE, prevalenceYearlyAverageData);
         typeYearSet.put(this.prevalenceInPercent, prevalenceInPercentData);
 
         //do male smoker
         HashMap<String, Object> maleSmokerData = new HashMap<>();
         HashMap<String, List<CountryYearMaleSmoker>> maleSmokerYearlyData = new HashMap<>();
+        HashMap<String, Double> maleSmokerYearlyAverageData = new HashMap<>();
         List<String> maleSmokerYears = new ArrayList<>();
         for (CountryYear cy: maleSmokers){
             //type year
@@ -137,17 +150,27 @@ public class BootstrapService {
             }
         }
         Collections.sort(maleSmokerYears);
+        for (String y : maleSmokerYears){
+            List<CountryYearMaleSmoker> data = maleSmokerYearlyData.get(y);
+            double sum = data.stream()
+                    .parallel()
+                    .map(CountryYearMaleSmoker::getMaleInPercent)
+                    .mapToDouble(Double::doubleValue).sum();
+            maleSmokerYearlyAverageData.put(y, sum/data.size());
+        }
         int[] maleSmokerLegend = new int[]{0, 10, 20, 30, 40, 50};
         maleSmokerData.put(YEAR, maleSmokerYears);
         maleSmokerData.put(DATA, maleSmokerYearlyData);
         maleSmokerData.put(LEGEND, maleSmokerLegend);
         maleSmokerData.put(LEGENDSEPRATOR, "%");
+        maleSmokerData.put(AVERAGE, maleSmokerYearlyAverageData);
         typeYearSet.put(this.maleSmoker, maleSmokerData);
 
         //do female smoker
         HashMap<String, Object> femaleSmokerData = new HashMap<>();
         HashMap<String, List<CountryYearFemaleSmoker>> femaleSmokerYearlyData = new HashMap<>();
         List<String> femaleSmokerYears = new ArrayList<>();
+        HashMap<String, Double> femaleSmokerYearlyAverageData = new HashMap<>();
         for (CountryYear cy: femaleSmokers){
             //type year
             CountryYearFemaleSmoker cyfs = new CountryYearFemaleSmoker(cy);
@@ -171,17 +194,27 @@ public class BootstrapService {
             }
         }
         Collections.sort(femaleSmokerYears);
+        for (String y : femaleSmokerYears){
+            List<CountryYearFemaleSmoker> data = femaleSmokerYearlyData.get(y);
+            double sum = data.stream()
+                    .parallel()
+                    .map(CountryYearFemaleSmoker::getFemaleInPercent)
+                    .mapToDouble(Double::doubleValue).sum();
+            femaleSmokerYearlyAverageData.put(y, sum/data.size());
+        }
         int[] femaleSmokerLegend = new int[]{0, 10, 20, 30, 40, 50};
         femaleSmokerData.put(YEAR, femaleSmokerYears);
         femaleSmokerData.put(DATA, femaleSmokerYearlyData);
         femaleSmokerData.put(LEGEND, femaleSmokerLegend);
         femaleSmokerData.put(LEGENDSEPRATOR, "%");
+        femaleSmokerData.put(AVERAGE, femaleSmokerYearlyAverageData);
         typeYearSet.put(this.femaleSmoker, femaleSmokerData);
 
         //do dailySmokeConsumption
         HashMap<String, Object> dailySmokeConsumptionData = new HashMap<>();
         HashMap<String, List<CountryYearDailyConsumption>> dailySmokeConsumptionYearlyData = new HashMap<>();
         List<String> dailySmokeConsumptionYears = new ArrayList<>();
+        HashMap<String, Double> dailySmokeConsumptionYearlyAverageData = new HashMap<>();
         for (CountryYear cy: dailySmokeConsumption){
             //type year
             CountryYearDailyConsumption cydc = new CountryYearDailyConsumption(cy);
@@ -205,17 +238,27 @@ public class BootstrapService {
             }
         }
         Collections.sort(dailySmokeConsumptionYears);
+        for (String y : dailySmokeConsumptionYears){
+            List<CountryYearDailyConsumption> data = dailySmokeConsumptionYearlyData.get(y);
+            double sum = data.stream()
+                    .parallel()
+                    .map(CountryYearDailyConsumption::getDailyConsumption)
+                    .mapToDouble(Double::doubleValue).sum();
+            dailySmokeConsumptionYearlyAverageData.put(y, sum/data.size());
+        }
         int[] dailySmokeConsumptionLegend = new int[]{0, 10, 20, 30, 40, 50};
         dailySmokeConsumptionData.put(YEAR, dailySmokeConsumptionYears);
         dailySmokeConsumptionData.put(DATA, dailySmokeConsumptionYearlyData);
         dailySmokeConsumptionData.put(LEGEND, dailySmokeConsumptionLegend);
         dailySmokeConsumptionData.put(LEGENDSEPRATOR, "");
+        dailySmokeConsumptionData.put(AVERAGE, dailySmokeConsumptionYearlyAverageData);
         typeYearSet.put(this.dailySmokeConsumption, dailySmokeConsumptionData);
 
         //do smokeDeath
         HashMap<String, Object> smokeDeathData = new HashMap<>();
         HashMap<String, List<CountryYearSmokeDeath>> smokeDeathYearlyData = new HashMap<>();
         List<String> smokeDeathYears = new ArrayList<>();
+        HashMap<String, Double> smokeDeathYearlyAverageData = new HashMap<>();
         for (CountryYear cy: smokeDeath){
             //type year
             CountryYearSmokeDeath cysd = new CountryYearSmokeDeath(cy);
@@ -239,14 +282,24 @@ public class BootstrapService {
             }
         }
         Collections.sort(smokeDeathYears);
+        for (String y : smokeDeathYears){
+            List<CountryYearSmokeDeath> data = smokeDeathYearlyData.get(y);
+            double sum = data.stream()
+                    .parallel()
+                    .map(CountryYearSmokeDeath::getDeath)
+                    .mapToDouble(Integer::doubleValue).sum();
+            smokeDeathYearlyAverageData.put(y, sum/data.size());
+        }
         smokeDeathData.put(YEAR, smokeDeathYears);
         smokeDeathData.put(DATA, smokeDeathYearlyData);
+        smokeDeathData.put(AVERAGE, smokeDeathYearlyAverageData);
         typeYearSet.put(this.smokeDeath, smokeDeathData);
 
         //do smokeCancerDeath
         HashMap<String, Object> cancerSmokeDeathData = new HashMap<>();
         HashMap<String, List<CountryYearCancerSmokeDeath>> cancerSmokeDeathYearlyData = new HashMap<>();
         List<String> cancerSmokeDeathYears = new ArrayList<>();
+        HashMap<String, Double> smokeCancerDeathYearlyAverageData = new HashMap<>();
         for (CountryYear cy: cancerSmokeDeath){
             //type year
             CountryYearCancerSmokeDeath cycsd = new CountryYearCancerSmokeDeath(cy);
@@ -270,11 +323,20 @@ public class BootstrapService {
             }
         }
         Collections.sort(cancerSmokeDeathYears);
+        for (String y : cancerSmokeDeathYears){
+            List<CountryYearCancerSmokeDeath> data = cancerSmokeDeathYearlyData.get(y);
+            double sum = data.stream()
+                    .parallel()
+                    .map(CountryYearCancerSmokeDeath::getCancerDeathInPercent)
+                    .mapToDouble(Double::doubleValue).sum();
+            smokeCancerDeathYearlyAverageData.put(y, sum/data.size());
+        }
         int[] cancerSmokerDeathLegend = new int[]{0, 10, 20, 30, 40, 50};
         cancerSmokeDeathData.put(YEAR, cancerSmokeDeathYears);
         cancerSmokeDeathData.put(DATA, cancerSmokeDeathYearlyData);
         cancerSmokeDeathData.put(LEGEND, cancerSmokerDeathLegend);
         cancerSmokeDeathData.put(LEGENDSEPRATOR, "%");
+        cancerSmokeDeathData.put(AVERAGE,smokeCancerDeathYearlyAverageData) ;
         typeYearSet.put(this.smokerCancerDeath, cancerSmokeDeathData);
 
          List<CountryYear> dataSet = countryYearSet.values().stream()
