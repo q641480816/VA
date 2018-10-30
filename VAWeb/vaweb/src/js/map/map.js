@@ -30,18 +30,18 @@ class Map extends Component{
             yearSelected: 0,
             isAutoPlay: false,
             mapBoxHeight: 72,
-            selectedArea: utilData.mapProjection[0]
+            selectedArea: utilData.mapProjection['world'].key
         };
 
         this.styles = this.props.classes;
 
         this.prepareMapClass = this.prepareMapClass.bind(this);
         this.processData = this.processData.bind(this);
-        this.renderSelectType = this.renderSelectType.bind(this);
-        this.renderSelectArea = this.renderSelectArea.bind(this);
         this.renderDescription = this.renderDescription.bind(this);
+        this.renderSelect = this.renderSelect.bind(this);
         this.renderSlider = this.renderSlider.bind(this);
         this.onSelectTypeChange = this.onSelectTypeChange.bind(this);
+        this.onSelectedAreaChange = this.onSelectedAreaChange.bind(this);
         this.play = this.play.bind(this);
         this.togglePlay = this.togglePlay.bind(this);
         this.mapResize = this.mapResize.bind(this);
@@ -63,37 +63,17 @@ class Map extends Component{
         window.removeEventListener("resize", this.mapResize);
     }
 
-    renderSelectType = () => {
+    renderSelect = (name, valueSource, dataSource, onChange, displayName) => {
         return (
-            <FormControl disabled={this.state.isAutoPlay}>
-                <Select name="type" displayEmpty value={this.state.selectedType} onChange={(event) => this.onSelectTypeChange(event)} disableUnderline={true}>
+            <FormControl disabled={this.state.isAutoPlay} style={{marginRight: '15px'}}>
+                <Select name={name} displayEmpty value={this.state[valueSource]} onChange={(event) => onChange(event)} disableUnderline={true}>
                     <MenuItem value="" disabled key={""}>
-                        Types
+                        {displayName}
                     </MenuItem>
-                    {Object.keys(utilData.typePair).map((key) => {
-                            return (
-                                <MenuItem value={utilData.typePair[key].key} key={utilData.typePair[key].key}>
-                                    <span className={this.styles.menuItem}>{utilData.typePair[key].display}</span>
-                                </MenuItem>
-                            )
-                    })}
-                </Select>
-            </FormControl>
-        )
-    };
-
-    renderSelectArea = () => {
-        return (
-            <FormControl disabled={this.state.isAutoPlay} style={{paddingLeft: '10px'}}>
-                <Select name="area" displayEmpty value={this.state.selectedArea}
-                        onChange={(event) => this.setState({selectedArea: event.target.value})} disableUnderline={true}>
-                    <MenuItem value="" disabled key={""}>
-                        Areas
-                    </MenuItem>
-                    {utilData.mapProjection.map((p) => {
+                    {Object.keys(dataSource).map((key) => {
                         return (
-                            <MenuItem value={p} key={p.display}>
-                                <span className={this.styles.menuItem}>{p.display}</span>
+                            <MenuItem value={dataSource[key].key} key={dataSource[key].key} style={{textAlign: 'center'}}>
+                                <span className={this.styles.menuItem}>{dataSource[key].display}</span>
                             </MenuItem>
                         )
                     })}
@@ -194,6 +174,7 @@ class Map extends Component{
 
         resource.dataset = dataset;
         resource.legendSet = legendSet;
+        resource.fullData = this.state.data["typeYearDataSet"][key]["data"];
 
         return resource;
     };
@@ -203,6 +184,12 @@ class Map extends Component{
             selectedType: event.target.value,
             yearSet: this.state.data["typeYearDataSet"][event.target.value]["years"],
             yearSelected: 0
+        })
+    };
+
+    onSelectedAreaChange = (event) => {
+        this.setState({
+            selectedArea: event.target.value
         })
     };
 
@@ -232,13 +219,13 @@ class Map extends Component{
                 <Card>
                     <AppBar position="static" className={this.styles.configBar}>
                         <Toolbar style={{minHeight: '35px', height:'6vh'}}>
-                            {this.renderSelectType()}
-                            {this.renderSelectArea()}
+                            {this.renderSelect("type", "selectedType", utilData.typePair, this.onSelectTypeChange, "Types")}
+                            {this.renderSelect("area", "selectedArea", utilData.mapProjection, this.onSelectedAreaChange, "Areas")}
                         </Toolbar>
                     </AppBar>
                     {this.renderDescription()}
                     <div className={this.styles.mapContainer}>
-                        <MapElement mapClass={this.state.mapClass} data={this.processData()} selectedArea={this.state.selectedArea}/>
+                        <MapElement mapClass={this.state.mapClass} data={this.processData()} selectedArea={utilData.mapProjection[this.state.selectedArea]}/>
                     </div>
                 </Card>
                 <div style={{width: '100vw', height: '6vh'}}>

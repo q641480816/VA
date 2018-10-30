@@ -5,6 +5,7 @@ import {withStyles} from "@material-ui/core";
 import Tooltip from '@material-ui/core/Tooltip';
 import * as d3 from "d3";
 import utilData from "../../common/utils";
+import CountrySelectDialog from "../countrySelectDialog/countrySelectDialog";
 
 console.log(d3);
 
@@ -102,6 +103,12 @@ class MapElement extends Component{
             fills: {
                 defaultFill: '#ddd'
             },
+            done: (datamap) => {
+                datamap.svg.selectAll('.datamaps-subunit').on('click', (geography) => {
+                    //console.log(geography.properties);
+                    this.countrySelectDialog.openDialog(this.state.data.fullData);
+                });
+            },
             data: this.state.data.dataset,
             geographyConfig: {
                 borderColor: this.state.borderDefault,
@@ -165,6 +172,7 @@ class MapElement extends Component{
             <div>
                 <div id="mapContainer" style={this.state.mapClass} ref={this.mapRef} />
                 {this.renderLegend()}
+                <CountrySelectDialog onRef={instance => { this.countrySelectDialog = instance; }}/>
             </div>
         );
     }
@@ -174,7 +182,7 @@ MapElement.propTypes = {
     mapClass: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
-    selectedArea: PropTypes.object.isRequired
+    selectedArea: PropTypes.object.isRequired,
 };
 
 const styles = theme => ({
@@ -198,6 +206,8 @@ const styles = theme => ({
         flexDirection: 'row'
     },
     legendBlock: {
+        borderTop: '2px solid #ffffff',
+        borderBottom: '2px solid #ffffff',
         position: 'relative',
         zIndex: 100,
         minWidth: '38px',
@@ -209,7 +219,11 @@ const styles = theme => ({
         },
         [theme.breakpoints.up('md')]: {
             height: '12px'
-        }
+        },
+        '&:hover': {
+            borderTop: '2px solid #FFFF00',
+            borderBottom: '2px solid #FFFF00',
+        },
     }
 });
 

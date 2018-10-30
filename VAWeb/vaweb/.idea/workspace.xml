@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2e49b491-efbb-4556-a794-5e0f255debfa" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/js/default/default.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/default/default.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/js/component/baseDialog/baseDialog.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/js/map/countrySelectDialog/countrySelectDialog.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/common/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/common/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/map/map.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/map/map.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/map/mapElement/mapElement.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/map/mapElement/mapElement.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -17,20 +22,21 @@
     <session id="1733365604">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="13" />
+          <entry key="project.closed" value="17" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.3" value="1" />
-          <entry key="project.open.time.6" value="9" />
-          <entry key="project.open.time.7" value="1" />
-          <entry key="project.opened" value="14" />
+          <entry key="project.open.time.6" value="12" />
+          <entry key="project.open.time.7" value="2" />
+          <entry key="project.open.time.8" value="1" />
+          <entry key="project.opened" value="19" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="css" value="7" />
-          <entry key="js" value="32" />
+          <entry key="js" value="35" />
           <entry key="json" value="7" />
           <entry key="svg" value="1" />
         </counts>
@@ -39,19 +45,19 @@
         <counts>
           <entry key="CSS" value="7" />
           <entry key="JSON" value="7" />
-          <entry key="JavaScript" value="32" />
+          <entry key="JavaScript" value="35" />
           <entry key="SVG" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
         <counts>
-          <entry key="ESLintLanguageService" value="14" />
+          <entry key="ESLintLanguageService" value="18" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="922" />
-          <entry key="js" value="12528" />
+          <entry key="js" value="14390" />
           <entry key="json" value="18" />
         </counts>
       </usages-collector>
@@ -59,7 +65,7 @@
         <counts>
           <entry key="CSS" value="922" />
           <entry key="JSON" value="18" />
-          <entry key="JavaScript" value="12528" />
+          <entry key="JavaScript" value="14390" />
         </counts>
       </usages-collector>
     </session>
@@ -69,20 +75,21 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/js/map/map.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3330">
-              <caret line="240" column="130" selection-start-line="240" selection-start-column="130" selection-end-line="240" selection-end-column="130" />
+            <state relative-caret-position="888">
+              <caret line="176" column="76" selection-start-line="176" selection-start-column="76" selection-end-line="176" selection-end-column="76" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
+                <element signature="n#!!block;n#render#0;n#Map#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/js/map/mapElement/mapElement.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="23" column="50" selection-start-line="23" selection-start-column="50" selection-end-line="23" selection-end-column="50" />
+            <state relative-caret-position="258">
+              <caret line="61" column="88" lean-forward="true" selection-start-line="61" selection-start-column="88" selection-end-line="61" selection-end-column="88" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
@@ -92,11 +99,35 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/js/default/default.js">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/js/map/countrySelectDialog/countrySelectDialog.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
-              <caret line="20" column="85" selection-start-line="20" selection-start-column="85" selection-end-line="20" selection-end-column="85" />
+            <state relative-caret-position="268">
+              <caret line="43" column="33" lean-forward="true" selection-start-line="43" selection-start-column="33" selection-end-line="43" selection-end-column="33" />
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/js/component/baseDialog/baseDialog.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/js/component/navigateButton/navigateButton.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="450">
+              <caret line="34" column="10" lean-forward="true" selection-start-line="23" selection-start-column="8" selection-end-line="34" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -113,8 +144,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/js/common/utils.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="855">
-              <caret line="57" column="55" selection-start-line="57" selection-start-column="55" selection-end-line="57" selection-end-column="55" />
+            <state relative-caret-position="1020">
+              <caret line="68" column="30" selection-start-line="68" selection-start-column="30" selection-end-line="68" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -136,8 +167,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -148,6 +179,7 @@
       <find>oncli</find>
       <find>value</find>
       <find>Tooltip</find>
+      <find>selectedArea</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -165,10 +197,13 @@
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/js/map/mapElement/mapElement.css" />
         <option value="$PROJECT_DIR$/src/App.js" />
-        <option value="$PROJECT_DIR$/src/js/map/map.js" />
-        <option value="$PROJECT_DIR$/src/js/common/utils.js" />
-        <option value="$PROJECT_DIR$/src/js/map/mapElement/mapElement.js" />
         <option value="$PROJECT_DIR$/src/js/default/default.js" />
+        <option value="$PROJECT_DIR$/src/js/common/utils.js" />
+        <option value="$PROJECT_DIR$/src/js/component/baseDialog/BaseDialog.js" />
+        <option value="$PROJECT_DIR$/src/js/map/map.js" />
+        <option value="$PROJECT_DIR$/src/js/map/mapElement/mapElement.js" />
+        <option value="$PROJECT_DIR$/src/js/component/baseDialog/baseDialog.js" />
+        <option value="$PROJECT_DIR$/src/js/map/countrySelectDialog/countrySelectDialog.js" />
       </list>
     </option>
   </component>
@@ -222,7 +257,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -260,14 +294,6 @@
               <item name="vaweb" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="component" type="462c0819:PsiDirectoryNode" />
-              <item name="navigateButton" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="vaweb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="vaweb" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
               <item name="default" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -275,12 +301,13 @@
               <item name="vaweb" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="home" type="462c0819:PsiDirectoryNode" />
+              <item name="map" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -338,11 +365,16 @@
       <workItem from="1540440139232" duration="8361000" />
       <workItem from="1540453865394" duration="7804000" />
       <workItem from="1540471757277" duration="58000" />
+      <workItem from="1540472106278" duration="35000" />
+      <workItem from="1540797923273" duration="195000" />
+      <workItem from="1540798205649" duration="8000" />
+      <workItem from="1540798243206" duration="8506000" />
+      <workItem from="1540869537316" duration="7972000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="114370000" />
+    <option name="totallyTimeSpent" value="131086000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -448,20 +480,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/component/navigateButton/navigateButton.js">
+    <entry file="file://$PROJECT_DIR$/src/js/default/default.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="913">
-          <caret line="69" column="109" lean-forward="true" selection-start-line="69" selection-start-column="109" selection-end-line="69" selection-end-column="109" />
+        <state relative-caret-position="-240">
+          <caret line="25" column="18" lean-forward="true" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/map/map.js">
+    <entry file="file://$PROJECT_DIR$/src/js/component/navigateButton/navigateButton.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3330">
-          <caret line="240" column="130" selection-start-line="240" selection-start-column="130" selection-end-line="240" selection-end-column="130" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="450">
+          <caret line="34" column="10" lean-forward="true" selection-start-line="23" selection-start-column="8" selection-end-line="34" selection-end-column="10" />
         </state>
       </provider>
     </entry>
@@ -474,8 +503,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/js/common/utils.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="57" column="55" selection-start-line="57" selection-start-column="55" selection-end-line="57" selection-end-column="55" />
+        <state relative-caret-position="1020">
+          <caret line="68" column="30" selection-start-line="68" selection-start-column="30" selection-end-line="68" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -489,22 +518,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/component/baseDialog/baseDialog.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/map/countrySelectDialog/countrySelectDialog.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="43" column="33" lean-forward="true" selection-start-line="43" selection-start-column="33" selection-end-line="43" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/map/map.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="888">
+          <caret line="176" column="76" selection-start-line="176" selection-start-column="76" selection-end-line="176" selection-end-column="76" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+            <element signature="n#!!block;n#render#0;n#Map#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/map/mapElement/mapElement.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="23" column="50" selection-start-line="23" selection-start-column="50" selection-end-line="23" selection-end-column="50" />
+        <state relative-caret-position="258">
+          <caret line="61" column="88" lean-forward="true" selection-start-line="61" selection-start-column="88" selection-end-line="61" selection-end-column="88" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#1;n#div#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/default/default.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="20" column="85" selection-start-line="20" selection-start-column="85" selection-end-line="20" selection-end-column="85" />
         </state>
       </provider>
     </entry>

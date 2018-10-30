@@ -34,30 +34,43 @@ const utilData= {
             description: 'Cancer contribution to smoking Death in '
         }
     },
-    mapProjection: [
-        {
+    mapProjection: {
+        world: {
+            key: 'world',
             display: 'World',
             projection: 'translate(0,0)scale(1)'
-        }, {
+        },
+        asia: {
+            key: 'asia',
             display: 'Asia',
             projection: 'translate(-700,-70)scale(1.85)'
-        }, {
+        },
+        OceaniaASEAN: {
+            key: 'OceaniaASEAN',
             display: 'Oceania & ASEAN',
             projection: 'translate(-1250,-350)scale(1.95)'
-        }, {
+        },
+        europe: {
+            key: 'europe',
             display: 'Europe',
             projection: 'translate(-850,0)scale(2.4)'
-        }, {
+        },
+        africa: {
+            key: 'africa',
             display: 'Africa',
             projection: 'translate(-650,-280)scale(2)'
-        },{
+        },
+        northAmerica: {
+            key: 'northAmerica',
             display: 'North America',
             projection: 'translate(150,-60)scale(1.85)'
-        },{
+        },
+        southAmerica: {
+            key: 'southAmerica',
             display: 'South America',
             projection: 'translate(-100,-420)scale(1.98)'
         }
-    ]
+    }
 };
 
 export default utilData;
