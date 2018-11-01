@@ -70,6 +70,26 @@ const utilData= {
             display: 'South America',
             projection: 'translate(-100,-420)scale(1.98)'
         }
+    },
+    colors: {
+        world: {
+            dark: '#072F66',
+            main: "#0B3D82",
+            medium: '#3266AD',
+            light: '#5481BE',
+        },
+        country: {
+            dark: '#8F480D',
+            main: "#B56726",
+            medium: '#F5AE73',
+            light: '#FFCDA3',
+        },
+        highlight: {
+            dark: '#FCE20A',
+            main: "#FFEA39",
+            medium: '#FFF181',
+            light: '#FFF6AF',
+        }
     }
 };
 

@@ -87,7 +87,7 @@ class Map extends Component{
             <div className={"timeBar"}>
                 <Slider className={"slider"} value={this.state.yearSelected} min={0} max={this.state.yearSet.length-1} step={1}
                     onChange={(event, value)=>{this.setState({yearSelected:value})}}
-                    thumb={<Tooltip title={this.state.yearSet[this.state.yearSelected]}><Lens style={{ color: '#2196f3' }} /></Tooltip>}/>
+                    thumb={<Tooltip title={this.state.yearSet[this.state.yearSelected]}><Lens style={{ color: utilData.colors.world.medium }} /></Tooltip>}/>
             </div>
         );
     };
@@ -137,7 +137,7 @@ class Map extends Component{
         //calculate color
         let paletteScale = scaleLinear()
             .domain([0, legend != null ? legend[legend.length - 1] : Math.max.apply(null, onlyValues)])
-            .range(["#EFEFFF","#02386F"]);
+            .range(["#EFEFFF",utilData.colors.world.dark]);
 
         //prepare legend
         let separator = this.state.data["typeYearDataSet"][key]["legendSeparator"];
@@ -174,7 +174,9 @@ class Map extends Component{
 
         resource.dataset = dataset;
         resource.legendSet = legendSet;
-        resource.fullData = this.state.data["typeYearDataSet"][key]["data"];
+        resource.fullData = {};
+        resource.fullData.data = this.state.data["typeYearDataSet"][key]["data"];
+        resource.fullData.worldAverage = this.state.data["typeYearDataSet"][key]["average"];
 
         return resource;
     };
@@ -225,7 +227,7 @@ class Map extends Component{
                     </AppBar>
                     {this.renderDescription()}
                     <div className={this.styles.mapContainer}>
-                        <MapElement mapClass={this.state.mapClass} data={this.processData()} selectedArea={utilData.mapProjection[this.state.selectedArea]}/>
+                        <MapElement mapClass={this.state.mapClass} data={this.processData()} selectedArea={utilData.mapProjection[this.state.selectedArea]} selectedType={this.state.selectedType}/>
                     </div>
                 </Card>
                 <div style={{width: '100vw', height: '6vh'}}>

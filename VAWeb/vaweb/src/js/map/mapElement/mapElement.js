@@ -3,11 +3,8 @@ import PropTypes from "prop-types";
 import Datamaps from "datamaps/dist/datamaps.world.hires.min";
 import {withStyles} from "@material-ui/core";
 import Tooltip from '@material-ui/core/Tooltip';
-import * as d3 from "d3";
 import utilData from "../../common/utils";
 import CountrySelectDialog from "../countrySelectDialog/countrySelectDialog";
-
-console.log(d3);
 
 class MapElement extends Component{
 
@@ -19,10 +16,11 @@ class MapElement extends Component{
             data: null,
             legendBlockSize: 7,
             borderDefault: '#DEDEDE',
-            highlightBorderColor: '#FFFF00',
+            highlightBorderColor: utilData.colors.highlight.dark,
             highlightStrokeWidth: 1,
             defaultStrokeWidth: 0.45,
-            selectedArea: utilData.mapProjection[0]
+            selectedArea: utilData.mapProjection[0],
+            selectedType: "prevalenceInPercent"
         };
 
         this.mapRef = React.createRef();
@@ -34,6 +32,7 @@ class MapElement extends Component{
         this.renderLegend = this.renderLegend.bind(this);
         this.onLegendBlockMouseOver = this.onLegendBlockMouseOver.bind(this);
         this.onLegendBlockMouseOut = this.onLegendBlockMouseOut.bind(this);
+        this.prepareCountrySelectData = this.prepareCountrySelectData.bind(this);
     }
 
     componentWillMount(){
@@ -41,7 +40,8 @@ class MapElement extends Component{
         this.setState({
             mapClass: this.props.mapClass,
             data: this.props.data,
-            selectedArea: this.props.selectedArea
+            selectedArea: this.props.selectedArea,
+            selectedType: this.props.selectedType
         });
     }
 
@@ -66,7 +66,8 @@ class MapElement extends Component{
             data: nextProps.data,
             map: map,
             mapClass: nextProps.mapClass,
-            selectedArea: nextProps.selectedArea
+            selectedArea: nextProps.selectedArea,
+            selectedType: nextProps.selectedType
         });
     }
 
@@ -92,6 +93,21 @@ class MapElement extends Component{
             )
     };
 
+    prepareCountrySelectData = (iso) => {
+        let source = this.state.data.fullData;
+        let data = {selectedCountry: {}, world: source.worldAverage, source: source};
+
+        Object.keys(source.data).forEach((year) => {
+            for (let i = 0; i < source.data[year].length; i++){
+                if (source.data[year][i].countryCode === iso){
+                    data.selectedCountry[year] = source.data[year][i];
+                    break;
+                }
+            }
+        });
+        return data;
+    };
+
     drawMap = () => {
         //USA
         let map = new Datamaps({
@@ -105,8 +121,8 @@ class MapElement extends Component{
             },
             done: (datamap) => {
                 datamap.svg.selectAll('.datamaps-subunit').on('click', (geography) => {
-                    //console.log(geography.properties);
-                    this.countrySelectDialog.openDialog(this.state.data.fullData);
+                    //console.log((this.prepareCountrySelectData(geography.properties.iso)));
+                    this.countrySelectDialog.openDialog(this.prepareCountrySelectData(geography.properties.iso), this.state.selectedType);
                 });
             },
             data: this.state.data.dataset,
@@ -183,6 +199,7 @@ MapElement.propTypes = {
     data: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
     selectedArea: PropTypes.object.isRequired,
+    selectedType: PropTypes.string.isRequired
 };
 
 const styles = theme => ({
@@ -221,8 +238,8 @@ const styles = theme => ({
             height: '12px'
         },
         '&:hover': {
-            borderTop: '2px solid #FFFF00',
-            borderBottom: '2px solid #FFFF00',
+            borderTop: '2px solid ' + utilData.colors.highlight.dark,
+            borderBottom: '2px solid ' + utilData.colors.highlight.dark,
         },
     }
 });
