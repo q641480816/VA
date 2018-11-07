@@ -6,7 +6,7 @@ import {Line} from 'react-chartjs-2';
 
 import utilData from "../../common/utils";
 
-class CountrySelectDialog extends Component{
+class CountrySelectDialog extends Component {
 
     constructor(props) {
         super(props);
@@ -14,7 +14,8 @@ class CountrySelectDialog extends Component{
         this.state = {
             data: null,
             chart: null,
-            selectedType: null
+            selectedType: null,
+            worldDataSet: {}
         };
 
         this.styles = this.props.classes;
@@ -22,31 +23,41 @@ class CountrySelectDialog extends Component{
         this.openDialog = this.openDialog.bind(this);
         this.drawChart = this.drawChart.bind(this);
         this.prepareLineChart = this.prepareLineChart.bind(this);
+        this.prepareOption = this.prepareOption.bind(this);
     }
 
-    componentWillMount(){}
+    componentWillMount() {
+    }
 
     componentDidMount() {
         this.props.onRef(this);
         //
     }
 
-    componentWillReceiveProps(nextProps){}
+    componentWillReceiveProps(nextProps) {
+    }
 
     componentWillUnmount() {
         this.props.onRef(null);
     }
 
     openDialog = (data, selectedType) => {
+        //prepare world dataset
+        let worldDataSet = {};
+        Object.keys(data.source.data).forEach((year) => {
+            worldDataSet[year] = data.source.data[year].map((d) => {return d[selectedType]}).sort((a, b) => b - a);
+        });
+
         this.setState({
-            data: Object.values(data.selectedCountry).length !== 0? data : null,
-            selectedType: selectedType
+            data: Object.values(data.selectedCountry).length !== 0 ? data : null,
+            selectedType: selectedType,
+            worldDataSet: worldDataSet
         });
 
         if (Object.values(data.selectedCountry).length !== 0) {
             this.dialog.handleClickOpen(utilData.typePair[this.state.selectedType].display + " in " + Object.values(data.selectedCountry)[0].countryName);
-        }else {
-            alert("N/A")
+        } else {
+            alert("N/A");
         }
     };
 
@@ -115,19 +126,61 @@ class CountrySelectDialog extends Component{
         return data;
     };
 
-    render () {
+    prepareOption = () => {
+        return {
+            maintainAspectRatio: false,
+            tooltips: {
+                mode: 'label',
+                position: 'nearest',
+                callbacks: {
+                    label: (tooltipItem, data) => {
+                        let label = data.datasets[tooltipItem.datasetIndex].label || '';
+                        return (" " + label + ':  ' + (tooltipItem.yLabel+"").substring(0, 5) + this.state.data.separator);
+                    },
+                    afterBody: (tooltipItems, data) => {
+                        return '\n' + data.datasets[0].label + "is ranked NO." + (this.state.worldDataSet[tooltipItems[0].xLabel].indexOf(tooltipItems[0].yLabel) + 1) + " in the World";
+                    }
+                },
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        padding: 10,
+                        callback: (value, index) => {
+                            return value + this.state.data.separator;
+                        }
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: this.state.data.yLabel
+                    },
+                }],
+                xAxes: [{
+                    ticks: {
+                        padding: 10
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Year'
+                    },
+                }]
+            },
+        }
+    };
+
+    render() {
         if (this.state.data != null) {
             return (
                 <BaseDialog onRef={instance => {
                     this.dialog = instance;
                 }}>
                     <div className={this.styles.container}>
-                        <Line width={600} height={350} options={{maintainAspectRatio: false}} data={this.prepareLineChart()}/>
+                        <Line width={600} height={350} options={this.prepareOption()} data={this.prepareLineChart()}/>
                     </div>
                 </BaseDialog>
             )
-        }else {
-            return(
+        } else {
+            return (
                 <div/>
             )
         }

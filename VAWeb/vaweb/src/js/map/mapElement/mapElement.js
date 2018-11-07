@@ -95,7 +95,9 @@ class MapElement extends Component{
 
     prepareCountrySelectData = (iso) => {
         let source = this.state.data.fullData;
-        let data = {selectedCountry: {}, world: source.worldAverage, source: source};
+        let data = {selectedCountry: {}, world: source.worldAverage, source: source, separator: this.state.data.separator, selectType: this.state.selectedType};
+        let label = utilData.typePair[this.state.selectedType].description;
+        data.yLabel = (this.state.data.separator.length === 0 ? label : label + " in " + this.state.data.separator);
 
         Object.keys(source.data).forEach((year) => {
             for (let i = 0; i < source.data[year].length; i++){

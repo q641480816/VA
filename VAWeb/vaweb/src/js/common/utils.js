@@ -6,32 +6,32 @@ const utilData= {
         prevalenceInPercent : {
             display: "Prevalence",
             key: 'prevalenceInPercent',
-            description: 'Prevalence Rate in '
+            description: 'Prevalence Rate '
         },
         maleInPercent : {
             display: "Male Smoker",
             key: 'maleInPercent',
-            description: 'Male adult smoking percent in '
+            description: 'Male adult smoking percent '
         },
         femaleInPercent : {
             display: "Female Smoker",
             key: 'femaleInPercent',
-            description: 'Female adult smoking percent in '
+            description: 'Female adult smoking percent '
         },
         dailyConsumption : {
             display: "Daily Tobacco Consumption",
             key: 'dailyConsumption',
-            description: 'Average daily consumption in '
+            description: 'Average daily consumption '
         },
         death: {
             display: 'Death due to smoke',
             key: 'death',
-            description: 'Death due to smoking in '
+            description: 'Death due to smoking '
         },
         cancerDeathInPercent: {
             display: 'Cancer contribution',
             key: 'cancerDeathInPercent',
-            description: 'Cancer contribution to smoking Death in '
+            description: 'Cancer contribution to smoking Death '
         }
     },
     mapProjection: {
@@ -94,5 +94,3 @@ const utilData= {
 };
 
 export default utilData;
-
-// sudo cp -a . /var/www/

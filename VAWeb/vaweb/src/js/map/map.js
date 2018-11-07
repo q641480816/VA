@@ -96,7 +96,7 @@ class Map extends Component{
         return (
             <div className={'description'}>
                 <span className={this.styles.descriptionContent}>
-                    {utilData.typePair[this.state.selectedType].description + this.state.yearSet[this.state.yearSelected]}
+                    {utilData.typePair[this.state.selectedType].description + "in " + this.state.yearSet[this.state.yearSelected]}
                  </span>
             </div>
         );
@@ -177,6 +177,7 @@ class Map extends Component{
         resource.fullData = {};
         resource.fullData.data = this.state.data["typeYearDataSet"][key]["data"];
         resource.fullData.worldAverage = this.state.data["typeYearDataSet"][key]["average"];
+        resource.separator = separator;
 
         return resource;
     };
