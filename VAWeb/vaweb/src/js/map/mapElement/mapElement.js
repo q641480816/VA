@@ -5,6 +5,7 @@ import {withStyles} from "@material-ui/core";
 import Tooltip from '@material-ui/core/Tooltip';
 import utilData from "../../common/utils";
 import CountrySelectDialog from "../countrySelectDialog/countrySelectDialog";
+import LegendSelectDialog from "../legendSelectDialog/legendSelectDialog";
 
 class MapElement extends Component{
 
@@ -33,6 +34,7 @@ class MapElement extends Component{
         this.onLegendBlockMouseOver = this.onLegendBlockMouseOver.bind(this);
         this.onLegendBlockMouseOut = this.onLegendBlockMouseOut.bind(this);
         this.prepareCountrySelectData = this.prepareCountrySelectData.bind(this);
+        this.openLegendDialog = this.openLegendDialog.bind(this);
     }
 
     componentWillMount(){
@@ -91,6 +93,10 @@ class MapElement extends Component{
                 '<span style="margin-top: 5px;">' + content + '</span>' +
             '</div>'
             )
+    };
+
+    openLegendDialog = () => {
+        this.legendSelectDialog.openDialog();
     };
 
     prepareCountrySelectData = (iso) => {
@@ -154,7 +160,7 @@ class MapElement extends Component{
                         {this.state.data.legendSet.map((legend) => (
                             <Tooltip title={legend.display} placement={"top"} key={legend.display}>
                                 <div className={this.styles.legendBlock} style={{backgroundColor: legend.color, width: this.state.legendBlockSize + "vw"}}
-                                     onMouseOver={() => this.onLegendBlockMouseOver(legend.valueSet)} onMouseOut={() => this.onLegendBlockMouseOut()}/>
+                                     onMouseOver={() => this.onLegendBlockMouseOver(legend.valueSet)} onMouseOut={() => this.onLegendBlockMouseOut()} onClick={this.openLegendDialog}/>
                             </Tooltip>
                         ))}
                     </div>
@@ -191,6 +197,7 @@ class MapElement extends Component{
                 <div id="mapContainer" style={this.state.mapClass} ref={this.mapRef} />
                 {this.renderLegend()}
                 <CountrySelectDialog onRef={instance => { this.countrySelectDialog = instance; }}/>
+                <LegendSelectDialog onRef={instance => { this.legendSelectDialog = instance; }}/>
             </div>
         );
     }

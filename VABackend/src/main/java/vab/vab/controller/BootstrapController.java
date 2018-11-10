@@ -39,10 +39,10 @@ public class BootstrapController {
 
     @RequestMapping(value = "/read", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> read()throws Exception {
-        readfileServices.read();
-        Map<String, Object> res = new HashMap<>();
-        res.put("result", "ok");
-        return res;
+    public List<List<String>> read()throws Exception {
+        return readfileServices.read();
+        //Map<String, Object> res = new HashMap<>();
+        //res.put("result", "ok");
+        //return res;
     }
 }
