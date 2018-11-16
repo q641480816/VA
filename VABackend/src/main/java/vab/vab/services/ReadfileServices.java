@@ -5,90 +5,90 @@ import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
 public class ReadfileServices {
 
-    public void read() throws Exception{
-        ArrayList<String[]> data = (ArrayList<String[]>) readLines()
-                .skip(1)
-                .parallel()
-                .map(a -> a.split(","))
-                .collect(Collectors.toList());
+    public List<List<String>> read() throws Exception{
+        List<String> fileNames = getFiles();
+        List<List<String>> allRecords = new ArrayList<>();
 
-        HashMap<String, String[]> result = new HashMap<>();
+        //get metaData
 
-        for (String[] record : data){
-            if (result.containsKey(record[0]+record[1])){
-                String[] temp = result.get(record[0]+record[1]);
-                switch (record[2]){
-                    case "Young":
-                        int young = Integer.parseInt(record[3]);
-                        temp[2] = Integer.parseInt(temp[2]) + young + "";
-                        temp[5] = Integer.parseInt(temp[5]) + young + "";
-                        break;
-                    case "Economy Active":
-                        int ea = Integer.parseInt(record[4]);
-                        temp[3] = Integer.parseInt(temp[3]) + ea + "";
-                        temp[5] = Integer.parseInt(temp[5]) + ea + "";
-                        break;
-                    case "Aged":
-                        int ag = Integer.parseInt(record[5]);
-                        temp[4] = Integer.parseInt(temp[4]) + ag + "";
-                        temp[5] = Integer.parseInt(temp[5]) + ag + "";
-                }
-                result.put(record[0]+record[1], temp);
-            }else {
-                String[] temp = new String[6];
-                for (int i = 0; i < 6; i++){
-                    temp[i] = "0";
-                }
-                temp[0] = record[0]; temp[1] = record[1];
-                switch (record[2]){
-                    case "Young":
-                        temp[2] = record[3];
-                        temp[5] = record[3];
-                        break;
-                    case "Economy Active":
-                        temp[3] = record[4];
-                        temp[5] = record[4];
-                        break;
-                    case "Aged":
-                        temp[4] = record[5];
-                        temp[5] = record[5];
-                }
-                result.put(record[0]+record[1], temp);
-            }
+        Map<String, List<String>> meta = getMetaData();
+
+        //prepare all records from raw data
+        for (String name : fileNames){
+            ArrayList<List<String>> fileContent = getOneFile(name);
+            allRecords.addAll(fileContent);
         }
 
+        System.out.println("get files done");
+        ArrayList<List<String>> allRecordFinal = new ArrayList<>();
+        for (List<String> allRecord : allRecords) {
+            ArrayList<String> r = new ArrayList<>();
+            r.addAll(allRecord);
+            r.addAll(meta.get(r.get(4)));
+            allRecordFinal.add(r);
+        }
+        System.out.println(allRecordFinal.size());
+
         //write file
-        FileWriter fw = new FileWriter(new File("U:/temp.csv"));
-        Set<String> keys = result.keySet();
-        for(String key: keys){
-            String[] d = result.get(key);
+        File f = new File("U:/temp.csv");
+        if (f.exists()) f.delete();
+        FileWriter fw = new FileWriter(new File("U:/pollution_master_data.csv"));
+        fw.write(System.lineSeparator());
+        for(List<String> r: allRecordFinal){
             StringBuilder s = new StringBuilder();
-            for (int i = 0; i < 6; i++){
-                s.append(d[i]).append(",");
+            for (int i = 0; i < r.size(); i++) {
+                if (i == 22) continue;
+                String aR = r.get(i);
+                s.append(aR).append(",");
             }
-            String r = s.toString().substring(0, s.length() - 1);
-            fw.write(r);
+            String record = s.toString().substring(0, s.length() - 1);
+            fw.write(record);
             fw.write(System.lineSeparator()); //new line
         }
         fw.close();
+
+        System.out.println("done writing");
+
+        return allRecordFinal;
     }
 
+    private List<String> getFiles() throws Exception {
+        return  readLines("files.csv")
+                .parallel()
+                .map(String::trim)
+                .collect(Collectors.toList());
+    }
 
+    private ArrayList<List<String>> getOneFile(String name) throws Exception {
+        return (ArrayList<List<String>>) readLines(name)
+                .parallel()
+                .skip(1)
+                .map(r -> r.split(","))
+                .map(Arrays::asList)
+                .collect(Collectors.toList());
+    }
 
-    private Stream<String> readLines() throws Exception{
-        File file = ResourceUtils.getFile("classpath:static/test.csv");
+    private Map<String ,List<String>> getMetaData() throws Exception {
+        return readLines("metadata.csv")
+                .parallel()
+                .skip(1)
+                .map(r -> r.split(","))
+                .map(Arrays::asList)
+                .collect(Collectors.toMap(d -> d.get(5), d -> d));
+    }
+
+    private Stream<String> readLines(String name) throws Exception{
+        File file = ResourceUtils.getFile("classpath:static/" + name);
         //File file = new File(ClassLoader.getSystemClassLoader().getResource("static/" + name + ".csv").getFile());
-        return Files.lines(file.toPath());
+        return Files.lines(file.toPath(),Charset.forName("UTF-8"));
     }
 }
