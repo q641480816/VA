@@ -12,7 +12,8 @@ class BaseDialog extends Component{
 
         this.state = {
             title: "",
-            isOpen: false
+            isOpen: false,
+            clicked: false
         };
 
         this.styles = this.props.classes;
@@ -47,7 +48,7 @@ class BaseDialog extends Component{
 
     render () {
         return(
-            <Dialog open={this.state.isOpen} onClose={this.handleClose}>
+            <Dialog open={this.state.isOpen} maxWidth = {'lg'} onClose={this.handleClose}>
                 <DialogTitle id="alert-dialog-title">{this.state.title}</DialogTitle>
                 <DialogContent>
                     {this.props.children}
@@ -60,6 +61,8 @@ class BaseDialog extends Component{
 
 const styles = theme => ({
     dialog: {
+        maxHeight: 1000,
+        maxWidth: 1000
     },
     container: {}
 });

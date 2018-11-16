@@ -128,6 +128,7 @@ class Map extends Component{
         let data = this.state.data["typeYearDataSet"][key]["data"][this.state.yearSet[this.state.yearSelected]];
         let legend = this.state.data["typeYearDataSet"][key]["legend"];
 
+        let rawData = {};
         let dataset = {};
 
         let onlyValues = data.map((o) => {
@@ -160,9 +161,9 @@ class Map extends Component{
         }
 
         //prepare data
-        data.forEach((o) => { //
+        data.forEach((o) => {//
             let iso = o.countryCode, value = o[key];
-            dataset[iso] = { numberOfThings: value, fillColor: paletteScale(value) };
+            dataset[iso] = { numberOfThings: value, fillColor: paletteScale(value)};
             for(let i = 0; i < legendSet.length; i++){
                 let l = legendSet[i];
                 if (l.value[0] <= value && l.value[1] > value) {
@@ -170,6 +171,7 @@ class Map extends Component{
                 }
                 legendSet[i] = l;
             }
+            rawData[iso] = o;
         });
 
         resource.dataset = dataset;
@@ -178,6 +180,7 @@ class Map extends Component{
         resource.fullData.data = this.state.data["typeYearDataSet"][key]["data"];
         resource.fullData.worldAverage = this.state.data["typeYearDataSet"][key]["average"];
         resource.separator = separator;
+        resource.rawData = rawData;
 
         return resource;
     };

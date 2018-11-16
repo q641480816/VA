@@ -5,8 +5,10 @@ import {withStyles} from "@material-ui/core";
 import Tooltip from '@material-ui/core/Tooltip';
 import utilData from "../../common/utils";
 import CountrySelectDialog from "../countrySelectDialog/countrySelectDialog";
+import LegendSelectDialog from "../legendSelectDialog/legendSelectDialog";
+import {scaleLinear} from "d3-scale";
 
-class MapElement extends Component{
+class MapElement extends Component {
 
     constructor(props) {
         super(props);
@@ -33,10 +35,13 @@ class MapElement extends Component{
         this.onLegendBlockMouseOver = this.onLegendBlockMouseOver.bind(this);
         this.onLegendBlockMouseOut = this.onLegendBlockMouseOut.bind(this);
         this.prepareCountrySelectData = this.prepareCountrySelectData.bind(this);
+        this.prepareLegendSelectData = this.prepareLegendSelectData.bind(this);
+        this.openLegendDialog = this.openLegendDialog.bind(this);
     }
 
-    componentWillMount(){
-        window.addEventListener("resize", ()=>{});
+    componentWillMount() {
+        window.addEventListener("resize", () => {
+        });
         this.setState({
             mapClass: this.props.mapClass,
             data: this.props.data,
@@ -45,7 +50,7 @@ class MapElement extends Component{
         });
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.setState({
             map: this.drawMap()
         });
@@ -85,28 +90,70 @@ class MapElement extends Component{
 
     getPupUp = (geography, data) => {
         let content = data === null ? 'No Data Available' : data.numberOfThings;
-        return(
+        return (
             '<div class="hoverinfo" style="display: flex; flex-direction: column">' +
-                '<span>' + geography.properties.name + '</span>' +
-                '<span style="margin-top: 5px;">' + content + '</span>' +
+            '<span>' + geography.properties.name + '</span>' +
+            '<span style="margin-top: 5px;">' + content + '</span>' +
             '</div>'
-            )
+        )
+    };
+
+    openLegendDialog = (legend) => {
+        this.legendSelectDialog.openDialog(this.prepareLegendSelectData(legend));
     };
 
     prepareCountrySelectData = (iso) => {
         let source = this.state.data.fullData;
-        let data = {selectedCountry: {}, world: source.worldAverage, source: source, separator: this.state.data.separator, selectType: this.state.selectedType};
+        let data = {
+            selectedCountry: {},
+            world: source.worldAverage,
+            source: source,
+            separator: this.state.data.separator,
+            selectType: this.state.selectedType
+        };
         let label = utilData.typePair[this.state.selectedType].description;
         data.yLabel = (this.state.data.separator.length === 0 ? label : label + " in " + this.state.data.separator);
 
         Object.keys(source.data).forEach((year) => {
-            for (let i = 0; i < source.data[year].length; i++){
-                if (source.data[year][i].countryCode === iso){
+            for (let i = 0; i < source.data[year].length; i++) {
+                if (source.data[year][i].countryCode === iso) {
                     data.selectedCountry[year] = source.data[year][i];
                     break;
                 }
             }
         });
+        return data;
+    };
+
+    prepareLegendSelectData = (legend) => {
+        console.log(legend);
+        let paletteScale = scaleLinear().domain([legend.value[0], legend.value[1]]).range(["#EFEFFF", utilData.colors.world.dark]);
+        let data = {name: this.state.selectedType.display, rawData: this.state.data};
+        let chart = {name: legend.display, color: utilData.colors.world.dark, children: []};
+        Object.keys(utilData.mapProjection).forEach((key) => {
+            let mapP = utilData.mapProjection[key];
+            if (mapP.key !== "world") {
+                let continent = {name: mapP.display, color: utilData.colors.world.medium, children: []};
+                legend.valueSet.forEach((iso) => {
+                    let country = this.state.data.rawData[iso];
+                    if (mapP.countries.indexOf(iso) >= 0) {
+                        continent.children.push({
+                            name: country.countryName,
+                            color: paletteScale(country[this.state.selectedType]),
+                            size: country[this.state.selectedType]
+                        });
+                    }
+                });
+                if (continent.children.length > 0) {
+                    let sum = 0;
+                    continent.children.forEach((c) => {sum += c.size});
+                    let paletteScale = scaleLinear().domain([legend.value[0], legend.value[1]]).range(["#EFEFFF", utilData.colors.country.dark]);
+                    continent.color = paletteScale(sum/continent.children.length);
+                    chart.children.push(continent);
+                }
+            }
+        });
+        if (chart.children.length > 0) data.chart = chart;
         return data;
     };
 
@@ -146,15 +193,21 @@ class MapElement extends Component{
     };
 
     renderLegend = () => {
-        if (this.state.data.legendSet){
-            return(
+        if (this.state.data.legendSet) {
+            return (
                 <div className={this.styles.legendContainer}>
                     <div className={this.styles.legendWrapper}
-                         style={{width: this.state.data.legendSet.length*this.state.legendBlockSize + "vw", minWidth: 38*this.state.data.legendSet.length+"px"}}>
+                         style={{
+                             width: this.state.data.legendSet.length * this.state.legendBlockSize + "vw",
+                             minWidth: 38 * this.state.data.legendSet.length + "px"
+                         }}>
                         {this.state.data.legendSet.map((legend) => (
                             <Tooltip title={legend.display} placement={"top"} key={legend.display}>
-                                <div className={this.styles.legendBlock} style={{backgroundColor: legend.color, width: this.state.legendBlockSize + "vw"}}
-                                     onMouseOver={() => this.onLegendBlockMouseOver(legend.valueSet)} onMouseOut={() => this.onLegendBlockMouseOut()}/>
+                                <div className={this.styles.legendBlock}
+                                     style={{backgroundColor: legend.color, width: this.state.legendBlockSize + "vw"}}
+                                     onMouseOver={() => this.onLegendBlockMouseOver(legend.valueSet)}
+                                     onMouseOut={() => this.onLegendBlockMouseOut()}
+                                     onClick={() => this.openLegendDialog(legend)}/>
                             </Tooltip>
                         ))}
                     </div>
@@ -165,7 +218,9 @@ class MapElement extends Component{
 
     clearMap = () => {
         const map = this.mapRef.current;
-        for (const child of Array.from(map.childNodes)) {map.removeChild(child);}
+        for (const child of Array.from(map.childNodes)) {
+            map.removeChild(child);
+        }
     };
 
     onLegendBlockMouseOver = (values) => {
@@ -188,9 +243,14 @@ class MapElement extends Component{
     render() {
         return (
             <div>
-                <div id="mapContainer" style={this.state.mapClass} ref={this.mapRef} />
+                <div id="mapContainer" style={this.state.mapClass} ref={this.mapRef}/>
                 {this.renderLegend()}
-                <CountrySelectDialog onRef={instance => { this.countrySelectDialog = instance; }}/>
+                <CountrySelectDialog onRef={instance => {
+                    this.countrySelectDialog = instance;
+                }}/>
+                <LegendSelectDialog onRef={instance => {
+                    this.legendSelectDialog = instance;
+                }}/>
             </div>
         );
     }
