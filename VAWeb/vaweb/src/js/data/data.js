@@ -14,7 +14,7 @@ class Data extends Component{
     render() {
         return (
             <div>
-                Data
+                Test pull request from lyucheng
             </div>
         );
     }
