@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core";
 import BaseDialog from "../../component/baseDialog/baseDialog";
-import {Sunburst, LabelSeries } from 'react-vis';
+import {Sunburst} from 'react-vis';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import utilData from "../../common/utils";
 
@@ -15,7 +16,9 @@ class LegendSelectDialog extends Component {
             selectedType: null,
             data: null,
             chart: null,
-            label: null
+            label: "Please hover to a section to see detail",
+            selectedYear: "1990",
+            separator: "%",
         };
 
         this.styles = this.props.classes;
@@ -26,6 +29,7 @@ class LegendSelectDialog extends Component {
         this.handleMouseOut = this.handleMouseOut.bind(this);
         this.updateData = this.updateData.bind(this);
         this.getKeyPath = this.getKeyPath.bind(this);
+        this.getSectionDescription = this.getSectionDescription.bind(this);
     }
 
     componentWillMount() {
@@ -47,7 +51,9 @@ class LegendSelectDialog extends Component {
         this.setState({
             selectedType: utilData.typePair[data.name],
             data: data,
-            chart: data.chart
+            chart: data.chart,
+            selectedYear: data.selectedYear,
+            separator: data.separator
         });
 
         this.dialog.handleClickOpen(utilData.typePair[data.name].display + " for countries within the range of " + data.legend.display);
@@ -70,13 +76,7 @@ class LegendSelectDialog extends Component {
                     colorType="literal"
                     onValueMouseOver={node => this.handleMouseOver(node)}
                     onValueMouseOut={node => this.handleMouseOut(node)}
-                >
-                    {this.state.label && (
-                        <LabelSeries
-                            data={[{x: 0, y: 0, label: this.state.label}]}
-                        />
-                    )}
-                </Sunburst>
+                />
             )
         } else {
             return <div/>
@@ -103,22 +103,51 @@ class LegendSelectDialog extends Component {
         );
     };
 
+    getSectionDescription = (path) => {
+        console.log(this.state.data);
+        let section = path[path.length - 1];
+        let value = null;
+        for (let i = 0; i < this.state.chart.children.length; i++) {
+            let continent = this.state.chart.children[i];
+            if (continent.name === path[1]){
+                if (path.length === 2){
+                    let sum = 0;
+                    let count = 0;
+                    continent.children.forEach((c) => {
+                        count ++;
+                        sum += c.size;
+                    });
+                    value = (sum/count+"").substring(0,4) + this.state.separator;
+                }else {
+                    for(let j = 0; j < continent.children.length; j++){
+                        let c = continent.children[j];
+                        if (c.name === section) value = (c.size + "").substring(0,4) + this.state.separator;
+                        break;
+                    }
+                }
+                if (value) break;
+            }
+        }
+        return this.state.selectedType.display + " in " + section + " is " + value + " in " + this.state.selectedYear + (path.length === 2 ? " in average" : "");
+    };
+
     handleMouseOver = (node) => {
         const path = this.getKeyPath(node).reverse();
-        console.log(path)
+        console.log(path);
+        this.getSectionDescription(path);
         const pathAsMap = path.reduce((res, row) => {
             res[row] = true;
             return res;
         }, {});
         this.setState({
-            label: path.length === 2 ? 'continent' : 'country',
-            chart: this.updateData(this.state.chart, pathAsMap)
+            label: this.getSectionDescription(path),
+            chart: this.updateData(this.state.chart, pathAsMap),
         });
     };
 
     handleMouseOut = (node) => {
         this.setState({
-            label : null,
+            label: "Please hover to a section to see detail",
             chart: this.updateData(this.state.data.chart, false)
         })
     };
@@ -128,9 +157,11 @@ class LegendSelectDialog extends Component {
             <BaseDialog onRef={instance => {
                 this.dialog = instance;
             }}>
-                <div className={this.styles.container}>
-                    {this.renderChart()}
-                </div>
+                <Tooltip title={this.state.label} placement={"top"} classes={{tooltip: this.styles.tooltip}}>
+                    <div className={this.styles.container}>
+                        {this.renderChart()}
+                    </div>
+                </Tooltip>
             </BaseDialog>
         )
     }
@@ -140,7 +171,17 @@ class LegendSelectDialog extends Component {
 const styles = theme => ({
     container: {
         display: "flex",
-        flexDirection: 'column'
+        flexDirection: 'column',
+        marginTop: 40
+    },
+    tooltip: {
+        background: theme.palette.common.white,
+        boxShadow: theme.shadows[1],
+        color: theme.palette.text.primary,
+        fontSize: theme.typography.pxToRem(15),
+        [theme.breakpoints.down('sm')]: {
+            fontSize: theme.typography.pxToRem(10),
+        },
     }
 });
 

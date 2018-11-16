@@ -22,7 +22,8 @@ class MapElement extends Component {
             highlightStrokeWidth: 1,
             defaultStrokeWidth: 0.45,
             selectedArea: utilData.mapProjection[0],
-            selectedType: "prevalenceInPercent"
+            selectedType: "prevalenceInPercent",
+            selectedYear: "1990"
         };
 
         this.mapRef = React.createRef();
@@ -46,7 +47,8 @@ class MapElement extends Component {
             mapClass: this.props.mapClass,
             data: this.props.data,
             selectedArea: this.props.selectedArea,
-            selectedType: this.props.selectedType
+            selectedType: this.props.selectedType,
+            selectedYear: this.props.selectedYear
         });
     }
 
@@ -72,7 +74,8 @@ class MapElement extends Component {
             map: map,
             mapClass: nextProps.mapClass,
             selectedArea: nextProps.selectedArea,
-            selectedType: nextProps.selectedType
+            selectedType: nextProps.selectedType,
+            selectedYear: nextProps.selectedYear
         });
     }
 
@@ -127,7 +130,7 @@ class MapElement extends Component {
 
     prepareLegendSelectData = (legend) => {
         let paletteScale = scaleLinear().domain([legend.value[0], legend.value[1] > 100 ? legend.value[0] + 20 : legend.value[1]]).range(["#EFEFFF", utilData.colors.world.dark]);
-        let data = {name: this.state.selectedType, rawData: this.state.data, legend: legend};
+        let data = {name: this.state.selectedType, rawData: this.state.data, legend: legend, selectedYear: this.state.selectedYear, separator: this.state.data.separator,};
         let chart = {name: legend.display, color: utilData.colors.world.dark, children: []};
         Object.keys(utilData.mapProjection).forEach((key) => {
             let mapP = utilData.mapProjection[key];
@@ -259,7 +262,8 @@ MapElement.propTypes = {
     data: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
     selectedArea: PropTypes.object.isRequired,
-    selectedType: PropTypes.string.isRequired
+    selectedType: PropTypes.string.isRequired,
+    selectedYear: PropTypes.string.isRequired
 };
 
 const styles = theme => ({

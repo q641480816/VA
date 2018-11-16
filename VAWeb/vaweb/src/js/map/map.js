@@ -18,7 +18,7 @@ import utilData from "../common/utils";
 
 import './map.css';
 
-class Map extends Component{
+class Map extends Component {
 
     constructor(props) {
         super(props);
@@ -47,7 +47,7 @@ class Map extends Component{
         this.mapResize = this.mapResize.bind(this);
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.setState({
             mapClass: this.prepareMapClass(),
             data: this.props.data,
@@ -55,24 +55,26 @@ class Map extends Component{
         });
     }
 
-    componentDidMount(){
+    componentDidMount() {
         window.addEventListener("resize", this.mapResize);
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         window.removeEventListener("resize", this.mapResize);
     }
 
     renderSelect = (name, valueSource, dataSource, onChange, displayName) => {
         return (
             <FormControl disabled={this.state.isAutoPlay} style={{marginRight: '15px'}}>
-                <Select name={name} displayEmpty value={this.state[valueSource]} onChange={(event) => onChange(event)} disableUnderline={true}>
+                <Select name={name} displayEmpty value={this.state[valueSource]} onChange={(event) => onChange(event)}
+                        disableUnderline={true}>
                     <MenuItem value="" disabled key={""}>
                         {displayName}
                     </MenuItem>
                     {Object.keys(dataSource).map((key) => {
                         return (
-                            <MenuItem value={dataSource[key].key} key={dataSource[key].key} style={{textAlign: 'center'}}>
+                            <MenuItem value={dataSource[key].key} key={dataSource[key].key}
+                                      style={{textAlign: 'center'}}>
                                 <span className={this.styles.menuItem}>{dataSource[key].display}</span>
                             </MenuItem>
                         )
@@ -85,9 +87,13 @@ class Map extends Component{
     renderSlider = () => {
         return (
             <div className={"timeBar"}>
-                <Slider className={"slider"} value={this.state.yearSelected} min={0} max={this.state.yearSet.length-1} step={1}
-                    onChange={(event, value)=>{this.setState({yearSelected:value})}}
-                    thumb={<Tooltip title={this.state.yearSet[this.state.yearSelected]}><Lens style={{ color: utilData.colors.world.medium }} /></Tooltip>}/>
+                <Slider className={"slider"} value={this.state.yearSelected} min={0} max={this.state.yearSet.length - 1}
+                        step={1}
+                        onChange={(event, value) => {
+                            this.setState({yearSelected: value})
+                        }}
+                        thumb={<Tooltip title={this.state.yearSet[this.state.yearSelected]}><Lens
+                            style={{color: utilData.colors.world.medium}}/></Tooltip>}/>
             </div>
         );
     };
@@ -107,18 +113,18 @@ class Map extends Component{
     };
 
     prepareMapClass = () => {
-        let height =  document.documentElement.clientHeight * 0.65;
-        let width = height*11/5;
-        if (width >= document.documentElement.clientWidth){
+        let height = document.documentElement.clientHeight * 0.65;
+        let width = height * 11 / 5;
+        if (width >= document.documentElement.clientWidth) {
             width = document.documentElement.clientWidth - 20;
-            height = width/11*5;
+            height = width / 11 * 5;
         }
         return {
             position: 'relative',
             marginLeft: "auto",
             marginRight: 'auto',
-            height: height+"px",
-            width: width+"px",
+            height: height + "px",
+            width: width + "px",
         }
     };
 
@@ -138,13 +144,13 @@ class Map extends Component{
         //calculate color
         let paletteScale = scaleLinear()
             .domain([0, legend != null ? legend[legend.length - 1] : Math.max.apply(null, onlyValues)])
-            .range(["#EFEFFF",utilData.colors.world.dark]);
+            .range(["#EFEFFF", utilData.colors.world.dark]);
 
         //prepare legend
         let separator = this.state.data["typeYearDataSet"][key]["legendSeparator"];
         let legendSet = [];
-        if (legend){
-            for (let i = 0; i < legend.length - 1; i++){
+        if (legend) {
+            for (let i = 0; i < legend.length - 1; i++) {
                 legendSet.push({
                     display: legend[i] + separator + " - " + legend[i + 1] + separator,
                     color: paletteScale(legend[i]),
@@ -153,9 +159,9 @@ class Map extends Component{
                 })
             }
             legendSet.push({
-                display: "> " + legend[legend.length-1] + separator,
-                color: paletteScale(legend[legend.length-1]),
-                value: [legend[legend.length-1], Number.MAX_SAFE_INTEGER],
+                display: "> " + legend[legend.length - 1] + separator,
+                color: paletteScale(legend[legend.length - 1]),
+                value: [legend[legend.length - 1], Number.MAX_SAFE_INTEGER],
                 valueSet: []
             })
         }
@@ -163,8 +169,8 @@ class Map extends Component{
         //prepare data
         data.forEach((o) => {//
             let iso = o.countryCode, value = o[key];
-            dataset[iso] = { numberOfThings: value, fillColor: paletteScale(value)};
-            for(let i = 0; i < legendSet.length; i++){
+            dataset[iso] = {numberOfThings: value, fillColor: paletteScale(value)};
+            for (let i = 0; i < legendSet.length; i++) {
                 let l = legendSet[i];
                 if (l.value[0] <= value && l.value[1] > value) {
                     l.valueSet.push(iso);
@@ -205,7 +211,7 @@ class Map extends Component{
     };
 
     play = (isPlay) => {
-        if (isPlay || this.state.isAutoPlay){
+        if (isPlay || this.state.isAutoPlay) {
             let year = this.state.yearSelected + 1;
             this.setState({
                 yearSelected: year,
@@ -214,7 +220,7 @@ class Map extends Component{
             setTimeout(() => {
                 this.play()
             }, 200);
-        }else if (this.state.yearSelected === this.state.yearSet.length - 1) {
+        } else if (this.state.yearSelected === this.state.yearSet.length - 1) {
             this.setState({yearSelected: 0})
         }
     };
@@ -224,20 +230,24 @@ class Map extends Component{
             <div className={"map-base"}>
                 <Card>
                     <AppBar position="static" className={this.styles.configBar}>
-                        <Toolbar style={{minHeight: '35px', height:'6vh'}}>
+                        <Toolbar style={{minHeight: '35px', height: '6vh'}}>
                             {this.renderSelect("type", "selectedType", utilData.typePair, this.onSelectTypeChange, "Types")}
                             {this.renderSelect("area", "selectedArea", utilData.mapProjection, this.onSelectedAreaChange, "Areas")}
                         </Toolbar>
                     </AppBar>
                     {this.renderDescription()}
                     <div className={this.styles.mapContainer}>
-                        <MapElement mapClass={this.state.mapClass} data={this.processData()} selectedArea={utilData.mapProjection[this.state.selectedArea]} selectedType={this.state.selectedType}/>
+                        <MapElement mapClass={this.state.mapClass} data={this.processData()}
+                                    selectedArea={utilData.mapProjection[this.state.selectedArea]}
+                                    selectedType={this.state.selectedType}
+                                    selectedYear={this.state.yearSet[this.state.yearSelected]}/>
                     </div>
                 </Card>
                 <div style={{width: '100vw', height: '6vh'}}>
                     <div className={"bottom"}>
-                        <div style={{width: '3vw', minWidth:'25px'}}>
-                            {this.state.isAutoPlay ? <Pause onClick={()=>this.togglePlay(false)}/> : <PlayArrow onClick={()=>this.togglePlay(true)}/>}
+                        <div style={{width: '3vw', minWidth: '25px'}}>
+                            {this.state.isAutoPlay ? <Pause onClick={() => this.togglePlay(false)}/> :
+                                <PlayArrow onClick={() => this.togglePlay(true)}/>}
                         </div>
                         {this.renderSlider()}
                     </div>
