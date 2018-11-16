@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2e49b491-efbb-4556-a794-5e0f255debfa" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/js/map/legendSelectDialog/legendSelectDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/map/legendSelectDialog/legendSelectDialog.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/js/map/mapElement/mapElement.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/map/mapElement/mapElement.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -58,7 +57,7 @@
         <counts>
           <entry key="css" value="922" />
           <entry key="html" value="163" />
-          <entry key="js" value="18281" />
+          <entry key="js" value="18380" />
           <entry key="json" value="18" />
         </counts>
       </usages-collector>
@@ -67,7 +66,7 @@
           <entry key="CSS" value="922" />
           <entry key="HTML" value="163" />
           <entry key="JSON" value="18" />
-          <entry key="JavaScript" value="18281" />
+          <entry key="JavaScript" value="18380" />
         </counts>
       </usages-collector>
     </session>
@@ -86,11 +85,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/js/map/mapElement/mapElement.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="121">
-              <caret line="128" selection-start-line="128" selection-end-line="128" />
+            <state relative-caret-position="266">
+              <caret line="136" column="63" lean-forward="true" selection-start-line="136" selection-start-column="63" selection-end-line="136" selection-end-column="63" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
@@ -104,7 +103,7 @@
         <entry file="file://$PROJECT_DIR$/src/js/map/countrySelectDialog/countrySelectDialog.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="240">
-              <caret line="52" column="44" lean-forward="true" selection-start-line="52" selection-start-column="44" selection-end-line="52" selection-end-column="44" />
+              <caret line="52" column="44" selection-start-line="52" selection-start-column="44" selection-end-line="52" selection-end-column="44" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -112,11 +111,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/js/map/legendSelectDialog/legendSelectDialog.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
-              <caret line="72" column="17" selection-start-line="72" selection-start-column="17" selection-end-line="72" selection-end-column="17" />
+            <state relative-caret-position="718">
+              <caret line="102" column="10" selection-start-line="102" selection-start-column="10" selection-end-line="102" selection-end-column="10" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -166,11 +165,11 @@
       <find>window</find>
       <find>processData</find>
       <find>in</find>
-      <find>console</find>
       <find>conso</find>
       <find>selectedType</find>
       <find>LAO</find>
       <find>THA</find>
+      <find>console</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -195,8 +194,8 @@
         <option value="$PROJECT_DIR$/src/js/map/map.js" />
         <option value="$PROJECT_DIR$/src/js/map/countrySelectDialog/countrySelectDialog.js" />
         <option value="$PROJECT_DIR$/src/js/common/utils.js" />
-        <option value="$PROJECT_DIR$/src/js/map/mapElement/mapElement.js" />
         <option value="$PROJECT_DIR$/src/js/map/legendSelectDialog/legendSelectDialog.js" />
+        <option value="$PROJECT_DIR$/src/js/map/mapElement/mapElement.js" />
       </list>
     </option>
   </component>
@@ -398,12 +397,12 @@
       <workItem from="1541579553027" duration="13134000" />
       <workItem from="1541649985797" duration="222000" />
       <workItem from="1541740122837" duration="4906000" />
-      <workItem from="1542334937878" duration="2002000" />
+      <workItem from="1542334937878" duration="3428000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="165420000" />
+    <option name="totallyTimeSpent" value="166846000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -574,7 +573,17 @@
     <entry file="file://$PROJECT_DIR$/src/js/map/countrySelectDialog/countrySelectDialog.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
-          <caret line="52" column="44" lean-forward="true" selection-start-line="52" selection-start-column="44" selection-end-line="52" selection-end-column="44" />
+          <caret line="52" column="44" selection-start-line="52" selection-start-column="44" selection-end-line="52" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/map/legendSelectDialog/legendSelectDialog.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="718">
+          <caret line="102" column="10" selection-start-line="102" selection-start-column="10" selection-end-line="102" selection-end-column="10" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
@@ -583,22 +592,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/js/map/mapElement/mapElement.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="128" selection-start-line="128" selection-end-line="128" />
+        <state relative-caret-position="266">
+          <caret line="136" column="63" lean-forward="true" selection-start-line="136" selection-start-column="63" selection-end-line="136" selection-end-column="63" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#1;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/map/legendSelectDialog/legendSelectDialog.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="72" column="17" selection-start-line="72" selection-start-column="17" selection-end-line="72" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
           </folding>
         </state>
       </provider>

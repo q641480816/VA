@@ -126,7 +126,7 @@ class MapElement extends Component {
     };
 
     prepareLegendSelectData = (legend) => {
-        let paletteScale = scaleLinear().domain([legend.value[0], legend.value[1]]).range(["#EFEFFF", utilData.colors.world.dark]);
+        let paletteScale = scaleLinear().domain([legend.value[0], legend.value[1] > 100 ? legend.value[0] + 20 : legend.value[1]]).range(["#EFEFFF", utilData.colors.world.dark]);
         let data = {name: this.state.selectedType, rawData: this.state.data, legend: legend};
         let chart = {name: legend.display, color: utilData.colors.world.dark, children: []};
         Object.keys(utilData.mapProjection).forEach((key) => {
@@ -139,14 +139,14 @@ class MapElement extends Component {
                         continent.children.push({
                             name: country.countryName,
                             color: paletteScale(country[this.state.selectedType]),
-                            size: country[this.state.selectedType]
+                            size: country[this.state.selectedType],
                         });
                     }
                 });
                 if (continent.children.length > 0) {
                     let sum = 0;
                     continent.children.forEach((c) => {sum += c.size});
-                    let paletteScale = scaleLinear().domain([legend.value[0], legend.value[1]]).range(["#EFEFFF", utilData.colors.country.dark]);
+                    let paletteScale = scaleLinear().domain([legend.value[0], legend.value[1] > 100 ? legend.value[0] + 20 : legend.value[1]]).range(["#EFEFFF", utilData.colors.country.dark]);
                     continent.color = paletteScale(sum/continent.children.length);
                     chart.children.push(continent);
                 }
@@ -169,7 +169,6 @@ class MapElement extends Component {
             },
             done: (datamap) => {
                 datamap.svg.selectAll('.datamaps-subunit').on('click', (geography) => {
-                    //console.log((this.prepareCountrySelectData(geography.properties.iso)));
                     this.countrySelectDialog.openDialog(this.prepareCountrySelectData(geography.properties.iso), this.state.selectedType);
                 });
             },
