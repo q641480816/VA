@@ -126,9 +126,8 @@ class MapElement extends Component {
     };
 
     prepareLegendSelectData = (legend) => {
-        console.log(legend);
         let paletteScale = scaleLinear().domain([legend.value[0], legend.value[1]]).range(["#EFEFFF", utilData.colors.world.dark]);
-        let data = {name: this.state.selectedType.display, rawData: this.state.data};
+        let data = {name: this.state.selectedType, rawData: this.state.data, legend: legend};
         let chart = {name: legend.display, color: utilData.colors.world.dark, children: []};
         Object.keys(utilData.mapProjection).forEach((key) => {
             let mapP = utilData.mapProjection[key];

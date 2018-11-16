@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core";
 import BaseDialog from "../../component/baseDialog/baseDialog";
-import {Sunburst} from 'react-vis';
+import {Sunburst, LabelSeries } from 'react-vis';
 
 import utilData from "../../common/utils";
 
@@ -12,8 +12,10 @@ class LegendSelectDialog extends Component {
         super(props);
 
         this.state = {
+            selectedType: null,
             data: null,
-            chart: null
+            chart: null,
+            label: null
         };
 
         this.styles = this.props.classes;
@@ -43,11 +45,12 @@ class LegendSelectDialog extends Component {
 
     openDialog = (data) => {
         this.setState({
+            selectedType: utilData.typePair[data.name],
             data: data,
             chart: data.chart
         });
 
-        this.dialog.handleClickOpen("Legend");
+        this.dialog.handleClickOpen(utilData.typePair[data.name].display + " for countries within the range of " + data.legend.display);
     };
 
     renderChart = () => {
@@ -63,10 +66,16 @@ class LegendSelectDialog extends Component {
                         strokeOpacity: 0.3,
                         strokeWidth: '0.5'
                     }}
+                    hideRootNode
                     colorType="literal"
                     onValueMouseOver={node => this.handleMouseOver(node)}
                     onValueMouseOut={node => this.handleMouseOut(node)}
                 >
+                    {this.state.label && (
+                        <LabelSeries
+                            data={[{x: 0, y: 0, label: this.state.label}]}
+                        />
+                    )}
                 </Sunburst>
             )
         } else {
@@ -96,17 +105,20 @@ class LegendSelectDialog extends Component {
 
     handleMouseOver = (node) => {
         const path = this.getKeyPath(node).reverse();
+        console.log(path)
         const pathAsMap = path.reduce((res, row) => {
             res[row] = true;
             return res;
         }, {});
         this.setState({
+            label: path.length === 2 ? 'continent' : 'country',
             chart: this.updateData(this.state.chart, pathAsMap)
         });
     };
 
     handleMouseOut = (node) => {
         this.setState({
+            label : null,
             chart: this.updateData(this.state.data.chart, false)
         })
     };
