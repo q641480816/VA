@@ -11,7 +11,7 @@ public class CountryYearSmokeDeath {
 
     private String year;
 
-    private int death;
+    private double death;
 
     public CountryYearSmokeDeath(){super();}
 
@@ -46,11 +46,11 @@ public class CountryYearSmokeDeath {
         this.year = year;
     }
 
-    public int getDeath() {
+    public double getDeath() {
         return death;
     }
 
-    public void setDeath(int death) {
+    public void setDeath(double death) {
         this.death = death;
     }
 }
