@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2e49b491-efbb-4556-a794-5e0f255debfa" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/map/legendSelectDialog/legendSelectDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/map/legendSelectDialog/legendSelectDialog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/map/map.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/map/map.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/map/mapElement/mapElement.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/map/mapElement/mapElement.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -20,7 +17,7 @@
     <session id="1733365604">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="26" />
+          <entry key="project.closed" value="27" />
           <entry key="project.open.time.1" value="3" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.11" value="1" />
@@ -105,8 +102,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/js/map/legendSelectDialog/legendSelectDialog.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="128" column="13" lean-forward="true" selection-start-line="128" selection-start-column="13" selection-end-line="128" selection-end-column="13" />
+            <state relative-caret-position="296">
+              <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -422,12 +419,12 @@
       <workItem from="1541579553027" duration="13134000" />
       <workItem from="1541649985797" duration="222000" />
       <workItem from="1541740122837" duration="4906000" />
-      <workItem from="1542334937878" duration="10143000" />
+      <workItem from="1542334937878" duration="11741000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="173561000" />
+    <option name="totallyTimeSpent" value="175159000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -619,8 +616,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/js/map/legendSelectDialog/legendSelectDialog.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="128" column="13" lean-forward="true" selection-start-line="128" selection-start-column="13" selection-end-line="128" selection-end-column="13" />
+        <state relative-caret-position="296">
+          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
