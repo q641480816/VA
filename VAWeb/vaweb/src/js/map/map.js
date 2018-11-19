@@ -179,6 +179,11 @@ class Map extends Component {
             }
             rawData[iso] = o;
         });
+        utilData.countryCodeISO.forEach((iso) => {
+            if (!dataset[iso]){
+                dataset[iso] = {numberOfThings: -1, fillColor: '#ddd'};
+            }
+        });
 
         let groupedDataSet = {};
         this.state.data.dataSet.forEach((d) => {

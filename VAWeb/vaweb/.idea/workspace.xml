@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2e49b491-efbb-4556-a794-5e0f255debfa" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/js/map/countrySelectDialog/charts/countryLineChart.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/js/map/countrySelectDialog/charts/countryRadarChart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/1.49618f4e.chunk.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/1.49618f4e.chunk.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/js/common/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/common/utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/component/baseDialog/baseDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/component/baseDialog/baseDialog.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/map/countrySelectDialog/charts/countryRadarChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/map/countrySelectDialog/charts/countryRadarChart.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/js/map/countrySelectDialog/countrySelectDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/map/countrySelectDialog/countrySelectDialog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/map/legendSelectDialog/legendSelectDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/map/legendSelectDialog/legendSelectDialog.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/js/map/map.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/map/map.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/js/map/mapElement/mapElement.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/map/mapElement/mapElement.js" afterDir="false" />
     </list>
@@ -71,7 +64,7 @@
         <counts>
           <entry key="css" value="922" />
           <entry key="html" value="163" />
-          <entry key="js" value="22593" />
+          <entry key="js" value="22990" />
           <entry key="json" value="18" />
         </counts>
       </usages-collector>
@@ -80,7 +73,7 @@
           <entry key="CSS" value="922" />
           <entry key="HTML" value="163" />
           <entry key="JSON" value="18" />
-          <entry key="JavaScript" value="22593" />
+          <entry key="JavaScript" value="22990" />
         </counts>
       </usages-collector>
     </session>
@@ -112,8 +105,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/js/map/map.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="466">
-              <caret line="194" column="48" selection-start-line="194" selection-start-column="34" selection-end-line="194" selection-end-column="48" />
+            <state relative-caret-position="346">
+              <caret line="180" column="11" selection-start-line="180" selection-start-column="11" selection-end-line="180" selection-end-column="11" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -124,8 +117,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/js/map/mapElement/mapElement.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
-              <caret line="114" column="21" selection-start-line="114" selection-start-column="12" selection-end-line="114" selection-end-column="21" />
+            <state relative-caret-position="556">
+              <caret line="213" column="27" lean-forward="true" selection-start-line="213" selection-start-column="27" selection-end-line="213" selection-end-column="27" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#span#1;n#div#0;n#!!top" expanded="true" />
@@ -134,11 +127,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/js/map/countrySelectDialog/countrySelectDialog.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="121">
-              <caret line="52" column="47" selection-start-line="52" selection-start-column="47" selection-end-line="52" selection-end-column="47" />
+            <state relative-caret-position="390">
+              <caret line="74" column="280" selection-start-line="74" selection-start-column="280" selection-end-line="74" selection-end-column="280" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -158,11 +151,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/js/map/countrySelectDialog/charts/countryRadarChart.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="103" column="193" selection-start-line="103" selection-start-column="193" selection-end-line="103" selection-end-column="193" />
+            <state relative-caret-position="226">
+              <caret line="115" selection-start-line="115" selection-end-line="115" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -173,8 +166,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/js/common/utils.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="13" column="33" lean-forward="true" selection-start-line="13" selection-start-column="33" selection-end-line="13" selection-end-column="33" />
+            <state relative-caret-position="419">
+              <caret line="102" column="29" lean-forward="true" selection-start-line="102" selection-start-column="29" selection-end-line="102" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -204,16 +197,16 @@
       <find>selectedType</find>
       <find>LAO</find>
       <find>THA</find>
-      <find>console</find>
       <find>YEAR</find>
       <find>tool</find>
       <find>selectedYea</find>
       <find>chart</find>
       <find>dataset</find>
       <find>prepareCountrySelectData</find>
-      <find>console.</find>
       <find>processData</find>
       <find>sep</find>
+      <find>console</find>
+      <find>console.</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -239,11 +232,11 @@
         <option value="$PROJECT_DIR$/src/js/map/countrySelectDialog/charts/CountryLineChart.js" />
         <option value="$PROJECT_DIR$/src/js/map/countrySelectDialog/charts/countryRaderChart.ts" />
         <option value="$PROJECT_DIR$/src/js/map/countrySelectDialog/charts/countryLineChart.js" />
-        <option value="$PROJECT_DIR$/src/js/map/map.js" />
-        <option value="$PROJECT_DIR$/src/js/map/countrySelectDialog/countrySelectDialog.js" />
-        <option value="$PROJECT_DIR$/src/js/map/mapElement/mapElement.js" />
-        <option value="$PROJECT_DIR$/src/js/common/utils.js" />
         <option value="$PROJECT_DIR$/src/js/map/countrySelectDialog/charts/countryRadarChart.js" />
+        <option value="$PROJECT_DIR$/src/js/common/utils.js" />
+        <option value="$PROJECT_DIR$/src/js/map/map.js" />
+        <option value="$PROJECT_DIR$/src/js/map/mapElement/mapElement.js" />
+        <option value="$PROJECT_DIR$/src/js/map/countrySelectDialog/countrySelectDialog.js" />
       </list>
     </option>
   </component>
@@ -470,12 +463,12 @@
       <workItem from="1541649985797" duration="222000" />
       <workItem from="1541740122837" duration="4906000" />
       <workItem from="1542334937878" duration="11741000" />
-      <workItem from="1542609799757" duration="9547000" />
+      <workItem from="1542609799757" duration="13738000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="184706000" />
+    <option name="totallyTimeSpent" value="188897000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -657,10 +650,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/common/utils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="419">
+          <caret line="102" column="29" lean-forward="true" selection-start-line="102" selection-start-column="29" selection-end-line="102" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/map/map.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="466">
-          <caret line="194" column="48" selection-start-line="194" selection-start-column="34" selection-end-line="194" selection-end-column="48" />
+        <state relative-caret-position="346">
+          <caret line="180" column="11" selection-start-line="180" selection-start-column="11" selection-end-line="180" selection-end-column="11" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
@@ -669,8 +669,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/js/map/mapElement/mapElement.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="114" column="21" selection-start-line="114" selection-start-column="12" selection-end-line="114" selection-end-column="21" />
+        <state relative-caret-position="556">
+          <caret line="213" column="27" lean-forward="true" selection-start-line="213" selection-start-column="27" selection-end-line="213" selection-end-column="27" />
           <folding>
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#1;n#div#0;n#!!top" expanded="true" />
@@ -678,20 +678,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/map/countrySelectDialog/countrySelectDialog.js">
+    <entry file="file://$PROJECT_DIR$/src/js/map/countrySelectDialog/charts/countryRadarChart.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="52" column="47" selection-start-line="52" selection-start-column="47" selection-end-line="52" selection-end-column="47" />
+        <state relative-caret-position="226">
+          <caret line="115" selection-start-line="115" selection-end-line="115" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/common/utils.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="13" column="33" lean-forward="true" selection-start-line="13" selection-start-column="33" selection-end-line="13" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -705,10 +698,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/map/countrySelectDialog/charts/countryRadarChart.js">
+    <entry file="file://$PROJECT_DIR$/src/js/map/countrySelectDialog/countrySelectDialog.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="103" column="193" selection-start-line="103" selection-start-column="193" selection-end-line="103" selection-end-column="193" />
+        <state relative-caret-position="390">
+          <caret line="74" column="280" selection-start-line="74" selection-start-column="280" selection-end-line="74" selection-end-column="280" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>

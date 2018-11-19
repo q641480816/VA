@@ -27,7 +27,7 @@ class CountryRaderChart extends Component {
             data: this.props.data,
             selectedType: this.props.selectedType,
             selectedYear: this.props.selectedYear,
-            selectedData: this.props.data.groupedDataSet[Object.values(this.props.data.selectedCountry)[0].countryName + Object.values(this.props.data.selectedCountry)[0].year]
+            selectedData: this.props.data.groupedDataSet[Object.values(this.props.data.selectedCountry)[0].countryName + this.props.selectedYear]
         });
     }
 
@@ -36,7 +36,7 @@ class CountryRaderChart extends Component {
             data: nextProps.data,
             selectedType: nextProps.selectedType,
             selectedYear: nextProps.selectedYear,
-            selectedData: nextProps.data.groupedDataSet[Object.values(nextProps.data.selectedCountry)[0].countryName + Object.values(nextProps.data.selectedCountry)[0].year]
+            selectedData: nextProps.data.groupedDataSet[Object.values(nextProps.data.selectedCountry)[0].countryName + nextProps.selectedYear]
         });
     }
 
@@ -45,9 +45,11 @@ class CountryRaderChart extends Component {
         let data = [];
         let keys = [];
         Object.values(utilData.typePair).forEach((p) => {
-            if (p.separator.length > 0){
-                labels.push(p.display + " in " + p.separator);
-                data.push(this.state.selectedData[p.key]);
+            if (p.separator.length > 0) {
+                let value = this.state.selectedData[p.key] <= 100 ? this.state.selectedData[p.key] : this.state.selectedData[p.key] / 100;
+                let separator = this.state.selectedData[p.key] <= 100 ? utilData.typePair[p.key].separator[0] : utilData.typePair[p.key].separator[1];
+                labels.push(p.display + " in " + separator);
+                data.push(value);
                 keys.push(p.key);
             }
         });
@@ -80,10 +82,9 @@ class CountryRaderChart extends Component {
         let data = [];
         let scale = 0;
         Object.values(utilData.typePair).forEach((p) => {
-            if (p.separator.length > 0){
+            if (p.separator.length > 0) {
                 data.push(this.state.selectedData[p.key]);
             }
-
         });
 
         scale = data.sort()[data.length - 1];
@@ -92,7 +93,7 @@ class CountryRaderChart extends Component {
             scale: {
                 ticks: {
                     beginAtZero: true,
-                    max: (scale+20) < 100 ? (parseInt(scale/10, 10) + 2) * 10 : 100
+                    max: (scale + 20) < 100 ? (parseInt(scale / 10, 10) + 2) * 10 : 100
                 }
             },
             tooltips: {
@@ -101,15 +102,17 @@ class CountryRaderChart extends Component {
                 callbacks: {
                     label: (tooltipItem, data) => {
                         let key = this.keys[tooltipItem.index];
-                        return utilData.typePair[key].display + ": " + (this.state.selectedData[key] === 0 ? "No data available for this country in this year" : this.state.selectedData[key] + utilData.typePair[key].separator);
+                        let value = this.state.selectedData[key] <= 100 ? this.state.selectedData[key] : this.state.selectedData[key] / 10;
+                        value = (value + "").substring(0, 5);
+                        let separator = this.state.selectedData[key] <= 100 ? utilData.typePair[key].separator[0] : utilData.typePair[key].separator[1];
+                        return " " + utilData.typePair[key].display + ": " + (this.state.selectedData[key] === 0 ? "No data available for this country in this year" : value + separator);
                     }
                 },
             },
         }
     };
 
-    render(){
-        console.log(this.state.selectedData);
+    render() {
         return (
             <Radar data={this.prepareRadarChart()} width={600} height={350} options={this.prepareOption()}/>
         )

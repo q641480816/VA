@@ -7,37 +7,37 @@ const utilData= {
             display: "Prevalence",
             key: 'prevalenceInPercent',
             description: 'Prevalence Rate ',
-            separator: "%"
+            separator: ["%"]
         },
         maleInPercent : {
             display: "Male Smoker",
             key: 'maleInPercent',
             description: 'Male adult smoking percent ',
-            separator: "%"
+            separator: ["%"]
         },
         femaleInPercent : {
             display: "Female Smoker",
             key: 'femaleInPercent',
             description: 'Female adult smoking percent ',
-            separator: "%"
+            separator: ["%"]
         },
         dailyConsumption : {
             display: "Daily Tobacco Consumption",
             key: 'dailyConsumption',
             description: 'Average daily consumption ',
-            separator: ""
+            separator: []
         },
         death: {
             display: 'Death due to smoke',
             key: 'death',
             description: 'Death due to smoking ',
-            separator: ""
+            separator: ["‱","‰"]
         },
         cancerDeathInPercent: {
             display: 'Cancer contribution',
             key: 'cancerDeathInPercent',
             description: 'Cancer contribution to smoking Death ',
-            separator: "%"
+            separator: ["%"]
         }
     },
     mapProjection: {
@@ -102,7 +102,8 @@ const utilData= {
             medium: '#FFF181',
             light: '#FFF6AF',
         }
-    }
+    },
+    countryCodeISO: ['AFG','ALA','ALB','DZA','ASM','AND','AGO','AIA','ATA','ATG','ARG','ARM','ABW','AUS','AUT','AZE','BHS','BHR','BGD','BRB','BLR','BEL','BLZ','BEN','BMU','BTN','BOL','BQ','BIH','BWA','BVT','BRA','IOT','BRN','BGR','BFA','BDI','CPV','KHM','CMR','CAN','CYM','CAF','TCD','CHL','CHN','CXR','CCK','COL','COM','COG','COD','COK','CRI','CIV','HRV','CUB','CUW','CYP','CZE','DNK','DJI','DMA','DOM','ECU','EGY','SLV','GNQ','ERI','EST','SWZ','ETH','FLK','FRO','FJI','FIN','FRA','GUF','PYF','ATF','GAB','GMB','GEO','DEU','GHA','GIB','GRC','GRL','GRD','GLP','GUM','GTM','GGY','GIN','GNB','GUY','HTI','HMD','VAT','HND','HKG','HUN','ISL','IND','IDN','IRN','IRQ','IRL','IMN','ISR','ITA','JAM','JPN','JEY','JOR','KAZ','KEN','KIR','PRK','KOR','KWT','KGZ','LAO','LVA','LBN','LSO','LBR','LBY','LIE','LTU','LUX','MAC','MKD','MDG','MWI','MYS','MDV','MLI','MLT','MHL','MTQ','MRT','MUS','MYT','MEX','FSM','MDA','MCO','MNG','MNE','MSR','MAR','MOZ','MMR','NAM','NRU','NPL','NLD','NCL','NZL','NIC','NER','NGA','NIU','NFK','MNP','NOR','OMN','PAK','PLW','PS','PAN','PNG','PRY','PER','PHL','PCN','POL','PRT','PRI','QAT','REU','ROU','RUS','RWA','BLM','SH','KNA','LCA','MAF','SPM','VCT','WSM','SMR','STP','SAU','SEN','SRB','SYC','SLE','SGP','SXM','SVK','SVN','SLB','SOM','ZAF','SGS','SSD','ESP','LKA','SDN','SUR','SJM','SWE','CHE','SYR','TW','TJK','TZ','THA','TLS','TGO','TKL','TON','TTO','TUN','TUR','TKM','TCA','TUV','UGA','UKR','ARE','GBR','USA','UMI','URY','UZB','VUT','VEN','VNM','VGB','VIR','WLF','ESH','YEM','ZMB','ZWE']
 };
 
 export default utilData;

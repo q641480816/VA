@@ -92,7 +92,7 @@ class MapElement extends Component {
     }
 
     getPupUp = (geography, data) => {
-        let content = data === null ? 'No Data Available' : data.numberOfThings;
+        let content = data.numberOfThings === -1 ? 'No Data Available' : data.numberOfThings;
         return (
             '<div class="hoverinfo" style="display: flex; flex-direction: column">' +
             '<span>' + geography.properties.name + '</span>' +

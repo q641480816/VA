@@ -47,33 +47,32 @@ class CountrySelectDialog extends Component {
     }
 
     openDialog = (data, selectedType, selectedYear) => {
-        //prepare world dataset
-        let worldDataSet = {};
-        Object.keys(data.source.data).forEach((year) => {
-            worldDataSet[year] = data.source.data[year].map((d) => {
-                return d[selectedType]
-            }).sort((a, b) => b - a);
-        });
-
-        this.setState({
-            data: Object.values(data.selectedCountry).length !== 0 ? data : null,
-            selectedType: selectedType,
-            worldDataSet: worldDataSet,
-            title: utilData.typePair[selectedType].display + " in " + Object.values(data.selectedCountry)[0].countryName,
-            selectedYear: selectedYear,
-        });
-
-        if (Object.values(data.selectedCountry).length !== 0) {
-            this.dialog.handleClickOpen();
-        } else {
+        if (Object.values(data.selectedCountry).length === 0){
             alert("N/A");
+        }else {
+            //prepare world dataset
+            let worldDataSet = {};
+            Object.keys(data.source.data).forEach((year) => {
+                worldDataSet[year] = data.source.data[year].map((d) => {
+                    return d[selectedType]
+                }).sort((a, b) => b - a);
+            });
+
+            this.setState({
+                data: Object.values(data.selectedCountry).length !== 0 ? data : null,
+                selectedType: selectedType,
+                worldDataSet: worldDataSet,
+                title: utilData.typePair[selectedType].display + " in " + Object.values(data.selectedCountry)[0].countryName,
+                selectedYear: selectedYear,
+            });
+            this.dialog.handleClickOpen();
         }
     };
 
     onTabChange = (event, index) => {
         this.setState({
             value: index,
-            title: index === 0 ? utilData.typePair[this.state.selectedType].display + " in " + Object.values(this.state.data.selectedCountry)[0].countryName : "Overview in " + Object.values(this.state.data.selectedCountry)[0].countryName
+            title: index === 0 ? utilData.typePair[this.state.selectedType].display + " in " + Object.values(this.state.data.selectedCountry)[0].countryName : "Overview in " + Object.values(this.state.data.selectedCountry)[0].countryName + " in year of " + this.state.selectedYear
         })
     };
 
