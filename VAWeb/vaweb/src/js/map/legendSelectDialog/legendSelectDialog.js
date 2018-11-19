@@ -19,6 +19,7 @@ class LegendSelectDialog extends Component {
             label: "Please hover to a section to see detail",
             selectedYear: "1990",
             separator: "%",
+            title: ""
         };
 
         this.styles = this.props.classes;
@@ -53,10 +54,11 @@ class LegendSelectDialog extends Component {
             data: data,
             chart: data.chart,
             selectedYear: data.selectedYear,
-            separator: data.separator
+            separator: data.separator,
+            title: utilData.typePair[data.name].display + " for countries within the range of " + data.legend.display
         });
 
-        this.dialog.handleClickOpen(utilData.typePair[data.name].display + " for countries within the range of " + data.legend.display);
+        this.dialog.handleClickOpen();
     };
 
     renderChart = () => {
@@ -104,25 +106,26 @@ class LegendSelectDialog extends Component {
     };
 
     getSectionDescription = (path) => {
-        console.log(this.state.data);
         let section = path[path.length - 1];
         let value = null;
         for (let i = 0; i < this.state.chart.children.length; i++) {
             let continent = this.state.chart.children[i];
-            if (continent.name === path[1]){
-                if (path.length === 2){
+            if (continent.name === path[1]) {
+                if (path.length === 2) {
                     let sum = 0;
                     let count = 0;
                     continent.children.forEach((c) => {
-                        count ++;
+                        count++;
                         sum += c.size;
                     });
-                    value = (sum/count+"").substring(0,4) + this.state.separator;
-                }else {
-                    for(let j = 0; j < continent.children.length; j++){
+                    value = (sum / count + "").substring(0, 5) + this.state.separator;
+                } else {
+                    for (let j = 0; j < continent.children.length; j++) {
                         let c = continent.children[j];
-                        if (c.name === section) value = (c.size + "").substring(0,4) + this.state.separator;
-                        break;
+                        if (c.name === section) {
+                            value = (c.size + "").substring(0, 5) + this.state.separator;
+                            break;
+                        }
                     }
                 }
                 if (value) break;
@@ -133,7 +136,6 @@ class LegendSelectDialog extends Component {
 
     handleMouseOver = (node) => {
         const path = this.getKeyPath(node).reverse();
-        console.log(path);
         this.getSectionDescription(path);
         const pathAsMap = path.reduce((res, row) => {
             res[row] = true;
@@ -154,7 +156,7 @@ class LegendSelectDialog extends Component {
 
     render() {
         return (
-            <BaseDialog onRef={instance => {
+            <BaseDialog title={this.state.title} onRef={instance => {
                 this.dialog = instance;
             }}>
                 <Tooltip title={this.state.label} placement={"top"} classes={{tooltip: this.styles.tooltip}}>

@@ -92,7 +92,7 @@ class MapElement extends Component {
     }
 
     getPupUp = (geography, data) => {
-        let content = data === null ? 'No Data Available' : data.numberOfThings;
+        let content = data.numberOfThings === -1 ? 'No Data Available' : data.numberOfThings;
         return (
             '<div class="hoverinfo" style="display: flex; flex-direction: column">' +
             '<span>' + geography.properties.name + '</span>' +
@@ -111,6 +111,7 @@ class MapElement extends Component {
             selectedCountry: {},
             world: source.worldAverage,
             source: source,
+            groupedDataSet: this.state.data.groupedDataSet,
             separator: this.state.data.separator,
             selectType: this.state.selectedType
         };
@@ -172,7 +173,7 @@ class MapElement extends Component {
             },
             done: (datamap) => {
                 datamap.svg.selectAll('.datamaps-subunit').on('click', (geography) => {
-                    this.countrySelectDialog.openDialog(this.prepareCountrySelectData(geography.properties.iso), this.state.selectedType);
+                    this.countrySelectDialog.openDialog(this.prepareCountrySelectData(geography.properties.iso), this.state.selectedType, this.state.selectedYear);
                 });
             },
             data: this.state.data.dataset,
