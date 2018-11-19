@@ -64,6 +64,7 @@ class CountrySelectDialog extends Component {
                 worldDataSet: worldDataSet,
                 title: utilData.typePair[selectedType].display + " in " + Object.values(data.selectedCountry)[0].countryName,
                 selectedYear: selectedYear,
+                value: 0
             });
             this.dialog.handleClickOpen();
         }
