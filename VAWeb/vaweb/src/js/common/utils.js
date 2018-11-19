@@ -6,32 +6,38 @@ const utilData= {
         prevalenceInPercent : {
             display: "Prevalence",
             key: 'prevalenceInPercent',
-            description: 'Prevalence Rate '
+            description: 'Prevalence Rate ',
+            separator: "%"
         },
         maleInPercent : {
             display: "Male Smoker",
             key: 'maleInPercent',
-            description: 'Male adult smoking percent '
+            description: 'Male adult smoking percent ',
+            separator: "%"
         },
         femaleInPercent : {
             display: "Female Smoker",
             key: 'femaleInPercent',
-            description: 'Female adult smoking percent '
+            description: 'Female adult smoking percent ',
+            separator: "%"
         },
         dailyConsumption : {
             display: "Daily Tobacco Consumption",
             key: 'dailyConsumption',
-            description: 'Average daily consumption '
+            description: 'Average daily consumption ',
+            separator: ""
         },
         death: {
             display: 'Death due to smoke',
             key: 'death',
-            description: 'Death due to smoking '
+            description: 'Death due to smoking ',
+            separator: ""
         },
         cancerDeathInPercent: {
             display: 'Cancer contribution',
             key: 'cancerDeathInPercent',
-            description: 'Cancer contribution to smoking Death '
+            description: 'Cancer contribution to smoking Death ',
+            separator: "%"
         }
     },
     mapProjection: {

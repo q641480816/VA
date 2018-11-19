@@ -111,6 +111,7 @@ class MapElement extends Component {
             selectedCountry: {},
             world: source.worldAverage,
             source: source,
+            groupedDataSet: this.state.data.groupedDataSet,
             separator: this.state.data.separator,
             selectType: this.state.selectedType
         };
@@ -172,7 +173,7 @@ class MapElement extends Component {
             },
             done: (datamap) => {
                 datamap.svg.selectAll('.datamaps-subunit').on('click', (geography) => {
-                    this.countrySelectDialog.openDialog(this.prepareCountrySelectData(geography.properties.iso), this.state.selectedType);
+                    this.countrySelectDialog.openDialog(this.prepareCountrySelectData(geography.properties.iso), this.state.selectedType, this.state.selectedYear);
                 });
             },
             data: this.state.data.dataset,

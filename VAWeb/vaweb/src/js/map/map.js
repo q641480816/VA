@@ -180,6 +180,11 @@ class Map extends Component {
             rawData[iso] = o;
         });
 
+        let groupedDataSet = {};
+        this.state.data.dataSet.forEach((d) => {
+            groupedDataSet[d.key] = d;
+        });
+
         resource.dataset = dataset;
         resource.legendSet = legendSet;
         resource.fullData = {};
@@ -187,6 +192,7 @@ class Map extends Component {
         resource.fullData.worldAverage = this.state.data["typeYearDataSet"][key]["average"];
         resource.separator = separator;
         resource.rawData = rawData;
+        resource.groupedDataSet = groupedDataSet;
 
         return resource;
     };
