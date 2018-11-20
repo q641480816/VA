@@ -79,15 +79,14 @@ class CountryRaderChart extends Component {
     };
 
     prepareOption = () => {
-        let data = [];
         let scale = 0;
         Object.values(utilData.typePair).forEach((p) => {
             if (p.separator.length > 0) {
-                data.push(this.state.selectedData[p.key]);
+                let data = this.state.selectedData[p.key] <= 100 ? this.state.selectedData[p.key] : this.state.selectedData[p.key]/10
+                if (data > scale) scale = data;
             }
         });
 
-        scale = data.sort()[data.length - 1];
         return {
             maintainAspectRatio: true,
             scale: {
