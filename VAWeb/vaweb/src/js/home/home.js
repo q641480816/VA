@@ -80,6 +80,13 @@ class Home extends Component{
         return <div/>
     };
 
+    renderData = () => {
+        if (this.state.data != null){
+            return(<Data data={this.state.data}/>);
+        }
+        return <div/>
+    }
+
     render() {
         return (
             <div className="base">
@@ -89,7 +96,7 @@ class Home extends Component{
                 <div id={"content"}>
                     <Route exact path="/" component={Default} />
                     <Route path="/map" component={this.renderMap} />
-                    <Route path="/data" component={Data} />
+                    <Route path="/data" component={this.renderData} />
                 </div>
             </div>
         );

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import { withRouter } from 'react-router-dom';
+import LineChart from './LineChart';
 
 class Data extends Component{
 
@@ -13,15 +13,17 @@ class Data extends Component{
 
     render() {
         return (
-            <div>
-                Test pull request from lyucheng
-            </div>
+            <LineChart
+                elementWidth = {600}
+                elementHeight = {270}
+                data = {this.props.data}
+            />
         );
     }
 }
 
 Data.propTypes = {
-
+    data: PropTypes.object.isRequired
 };
 
 export default Data;
