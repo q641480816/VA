@@ -49,16 +49,19 @@ class LegendSelectDialog extends Component {
     }
 
     openDialog = (data) => {
-        this.setState({
-            selectedType: utilData.typePair[data.name],
-            data: data,
-            chart: data.chart,
-            selectedYear: data.selectedYear,
-            separator: data.separator,
-            title: utilData.typePair[data.name].display + " for countries within the range of " + data.legend.display
-        });
-
-        this.dialog.handleClickOpen();
+        if (data.chart) {
+            this.setState({
+                selectedType: utilData.typePair[data.name],
+                data: data,
+                chart: data.chart,
+                selectedYear: data.selectedYear,
+                separator: data.separator,
+                title: utilData.typePair[data.name].display + " for countries within the range of " + data.legend.display
+            });
+            this.dialog.handleClickOpen();
+        }else {
+            alert("N/A");
+        }
     };
 
     renderChart = () => {
