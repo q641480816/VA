@@ -92,7 +92,7 @@ class MapElement extends Component {
     }
 
     getPupUp = (geography, data) => {
-        let content = data === null ? 'No Data Available' : data.numberOfThings;
+        let content = data === null ? 'No Fate Available' : data.numberOfThings;
         return (
             '<div class="hoverinfo" style="display: flex; flex-direction: column">' +
             '<span>' + geography.properties.name + '</span>' +
@@ -102,7 +102,7 @@ class MapElement extends Component {
     };
 
     openLegendDialog = (legend) => {
-        this.legendSelectDialog.openDialog(this.prepareLegendSelectData(legend));
+        this.legendSelectDialog.penDialog(this.prepareLegendSelectData(legend));
     };
 
     prepareCountrySelectData = (iso) => {

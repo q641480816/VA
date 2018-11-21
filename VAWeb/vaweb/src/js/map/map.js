@@ -166,7 +166,7 @@ class Map extends Component {
             })
         }
 
-        //prepare data
+        //prepare fate
         data.forEach((o) => {//
             let iso = o.countryCode, value = o[key];
             dataset[iso] = {numberOfThings: value, fillColor: paletteScale(value)};
