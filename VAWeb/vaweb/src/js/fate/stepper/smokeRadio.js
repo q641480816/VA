@@ -5,7 +5,6 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
 
 const styles = theme => ({
     root: {
@@ -22,18 +21,14 @@ const styles = theme => ({
 class SmokeRadio extends React.Component {
 
     handleChange = event => {
-        console.log(event.target);
         this.props.switchSmoker(event.target.value === 'isSmoker');
     };
 
     render() {
         const { classes } = this.props;
-        console.log(this.props.isSmoker);
-        console.log(this.props.isSmoker? "isSmoker" : "notSmoker");
         return (
             <div className={classes.root}>
                 <FormControl component="fieldset" className={classes.formControl}>
-                    <FormLabel component="legend">Gender</FormLabel>
                     <RadioGroup
                         aria-label="Smoker"
                         name="gender1"

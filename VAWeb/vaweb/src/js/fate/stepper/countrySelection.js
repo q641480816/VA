@@ -45,9 +45,6 @@ class CountrySelect extends React.Component {
                         onChange={this.handleChange}
                         input={<FilledInput name="age" id="filled-age-simple" />}
                     >
-                        <MenuItem value="">
-                            <em>None</em>
-                        </MenuItem>
                         {countries.map((country) => {
                             return(
                                 <MenuItem key={country} value={country}>{country}</MenuItem>

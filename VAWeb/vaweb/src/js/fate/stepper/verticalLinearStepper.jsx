@@ -24,18 +24,23 @@ class VerticalLinearStepper extends React.Component {
     }
 
     handleNext = () => {
+        if (this.state.activeStep !== 2) {
+            this.props.setStep(this.state.activeStep + 1);
+        }
         this.setState(state => ({
             activeStep: state.activeStep + 1,
         }));
     };
 
     handleBack = () => {
+        this.props.setStep(this.state.activeStep - 1);
         this.setState(state => ({
             activeStep: state.activeStep - 1,
         }));
     };
 
     handleReset = () => {
+        this.props.setStep(0);
         this.setState({
             activeStep: 0,
         });
@@ -73,7 +78,7 @@ class VerticalLinearStepper extends React.Component {
                                                 onClick={this.handleNext}
                                                 className={classes.button}
                                             >
-                                                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                                                {activeStep === steps.length - 1 ? 'Final Fate' : 'Next'}
                                             </Button>
                                         </div>
                                     </div>
@@ -99,13 +104,15 @@ VerticalLinearStepper.propTypes = {
     stepDescription: PropTypes.func,
     stepContent: PropTypes.func,
     steps: PropTypes.array,
+    step: PropTypes.number,
+    setStep: PropTypes.func
 
 
 };
 
 const styles = theme => ({
     root: {
-        width: '90%',
+        width: '40%',
     },
     button: {
         marginTop: theme.spacing.unit,
