@@ -38,7 +38,10 @@ class PopulationPieChart extends React.Component {
                 </div>
                 <Pie
                     data={this.props.data}
+                    height={300}
+                    width={300}
                     devicePixelRatio={2}
+                    options={this.props.options}
                     onClick={() => this.handleClick()}
                 />
             </div>
@@ -58,7 +61,8 @@ PopulationPieChart.propsTypes = {
     data: PropTypes.object,
     flipCoin: PropTypes.number,
     setWillBeSmoker: PropTypes.func,
-    resetFlipCoin: PropTypes.func
+    resetFlipCoin: PropTypes.func,
+    options: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(PopulationPieChart);

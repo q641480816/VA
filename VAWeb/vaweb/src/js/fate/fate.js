@@ -13,7 +13,7 @@ class Fate extends Component {
         super(props);
         this.state = {
             country: 'Singapore',
-            gender: null,
+            gender: 'female',
             isSmoker: true,
             step: 0,
             willBeSmoker: null,
@@ -40,7 +40,11 @@ class Fate extends Component {
 
     componentWillUpdate(nextProps, nextState, nextContext) {
         if (nextState.flipCoin === null && nextState.step === 2 && !nextState.isSmoker && this.state.isSmoker) {
-            this.setState({flipCoin: this.countryGenderData[this.state.gender][this.state.country]});
+            if (this.state.gender) {
+                this.setState({flipCoin: this.countryGenderData[this.state.gender][this.state.country]});
+            } else {
+                this.setState({flipCoin: this.countryData[this.state.country]});
+            }
         }
 
         if (nextState.flipCoin === null && nextState.step === 2 && !nextState.isSmoker && this.state.step === 1) {
@@ -60,6 +64,14 @@ class Fate extends Component {
                 willBeSmoker: null,
             })
         }
+
+        if (nextState.step === 0 && this.state.step === 2) {
+            this.setState({
+                flipCoin: null,
+                willBeSmoker: null,
+            })
+        }
+
     };
 
     preCalculateData = () => {
@@ -186,17 +198,15 @@ class Fate extends Component {
                    return 'Died Of Smoking in ' + country;
                 } else {
                     if (this.state.willBeSmoker === null) {
-                       return 'Will you become A somker?';
+                       return 'Will you become a somker?';
                     } else if (this.state.willBeSmoker) {
-                        return 'You will be smoker in one day!';
+                        return 'You might be smoker one day!';
                     } else if (this.state.willBeSmoker === false) {
                         return 'You will not smoke forever!';
                     }
                 }
         }
     };
-
-
 
     preparePieChartData = (step, isSmoker) => {
         switch (step) {
@@ -317,6 +327,21 @@ class Fate extends Component {
        }
    };
 
+    preparePieOption = () => {
+        return {
+            tooltips: {
+                mode: 'label',
+                position: 'nearest',
+                callbacks: {
+                    label: (tooltipItem, data) => {
+                        let value = data['labels'][tooltipItem.index] + ": " + data['datasets'][0]['data'][tooltipItem.index] + "%";
+                        return value;
+                    }
+                },
+            }
+        }
+    };
+
     renderCountrySelection = () => {
         return (
             <CountrySelect
@@ -372,6 +397,7 @@ class Fate extends Component {
                 title={this.preparePieChartTitle(this.state.step)}
                 data={this.preparePieChartData(this.state.step, this.state.isSmoker)}
                 step={this.state.step}
+                options={this.preparePieOption()}
                 flipCoin={this.state.flipCoin}
                 setWillBeSmoker={(result) => this.setState({willBeSmoker: result})}
                 resetFlipCoin={() => this.setState({flipCoin: null})}
