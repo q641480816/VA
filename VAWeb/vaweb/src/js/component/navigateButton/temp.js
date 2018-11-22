@@ -86,7 +86,7 @@ const images = [
     },
     {
         url: 'https://cmkt-image-prd.global.ssl.fastly.net/0.1.0/ps/3531131/1360/906/m1/fpnw/wm1/wyxjobfaj3tqsfffecuvn3asvh9jutaao5tv8wmi2petimokkb1ksubbpbazinh2-.jpg?1509966990&s=5858246a1eae64c71c048b64d355653b',
-        title: 'Data',
+        title: 'Fate',
         width: '50%',
     },
 ];

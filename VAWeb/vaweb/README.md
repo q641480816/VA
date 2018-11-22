@@ -44,7 +44,7 @@ You can find the most recent version of this guide [here](https://github.com/fac
   - [Adding Temporary Environment Variables In Your Shell](#adding-temporary-environment-variables-in-your-shell)
   - [Adding Development Environment Variables In `.env`](#adding-development-environment-variables-in-env)
 - [Can I Use Decorators?](#can-i-use-decorators)
-- [Fetching Data with AJAX Requests](#fetching-data-with-ajax-requests)
+- [Fetching Fate with AJAX Requests](#fetching-data-with-ajax-requests)
 - [Integrating with an API Backend](#integrating-with-an-api-backend)
   - [Node](#node)
   - [Ruby on Rails](#ruby-on-rails)
@@ -54,7 +54,7 @@ You can find the most recent version of this guide [here](https://github.com/fac
 - [Using HTTPS in Development](#using-https-in-development)
 - [Generating Dynamic `<meta>` Tags on the Server](#generating-dynamic-meta-tags-on-the-server)
 - [Pre-Rendering into Static HTML Files](#pre-rendering-into-static-html-files)
-- [Injecting Data from the Server into the Page](#injecting-data-from-the-server-into-the-page)
+- [Injecting Fate from the Server into the Page](#injecting-data-from-the-server-into-the-page)
 - [Running Tests](#running-tests)
   - [Filename Conventions](#filename-conventions)
   - [Command Line Interface](#command-line-interface)
@@ -1090,7 +1090,7 @@ Please refer to these two threads for reference:
 
 Create React App will add decorator support when the specification advances to a stable stage.
 
-## Fetching Data with AJAX Requests
+## Fetching Fate with AJAX Requests
 
 React doesn't prescribe a specific approach to data fetching, but people commonly use either a library like [axios](https://github.com/axios/axios) or the [`fetch()` API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) provided by the browser.
 
@@ -1287,7 +1287,7 @@ The primary benefit of pre-rendering is that you get the core content of each pa
 
 You can read more about [zero-configuration pre-rendering (also called snapshotting) here](https://medium.com/superhighfives/an-almost-static-stack-6df0a2791319).
 
-## Injecting Data from the Server into the Page
+## Injecting Fate from the Server into the Page
 
 Similarly to the previous section, you can leave some placeholders in the HTML that inject global variables, for example:
 

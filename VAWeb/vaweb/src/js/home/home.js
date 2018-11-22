@@ -4,7 +4,7 @@ import { withRouter, Route } from 'react-router-dom';
 
 import NavigationButton from "../component/navigateButton/navigateButton";
 import Map from "../map/map";
-import Data from "../data/data";
+import Fate from "../fate/fate";
 import Default from "../default/default";
 
 import utilData from "../common/utils";
@@ -44,7 +44,7 @@ class Home extends Component{
             },
             {
                 url: 'https://cmkt-image-prd.global.ssl.fastly.net/0.1.0/ps/3531131/1360/906/m1/fpnw/wm1/wyxjobfaj3tqsfffecuvn3asvh9jutaao5tv8wmi2petimokkb1ksubbpbazinh2-.jpg?1509966990&s=5858246a1eae64c71c048b64d355653b',
-                title: 'Data',
+                title: 'Fate',
                 width: '50%',
                 func: this.onDataShow
             },
@@ -70,7 +70,7 @@ class Home extends Component{
     };
 
     onDataShow = ()=>{
-        this.state.history.push('/data');
+        this.state.history.push('/fate');
     };
 
     renderMap = () => {
@@ -79,6 +79,13 @@ class Home extends Component{
         }
         return <div/>
     };
+
+    renderData = () => {
+        if (this.state.data != null){
+            return(<Fate data={this.state.data}/>);
+        }
+        return <div/>
+    }
 
     render() {
         return (
@@ -89,7 +96,7 @@ class Home extends Component{
                 <div id={"content"}>
                     <Route exact path="/" component={Default} />
                     <Route path="/map" component={this.renderMap} />
-                    <Route path="/data" component={Data} />
+                    <Route path="/fate" component={this.renderData} />
                 </div>
             </div>
         );
