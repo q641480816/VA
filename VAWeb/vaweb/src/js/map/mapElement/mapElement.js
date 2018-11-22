@@ -114,7 +114,7 @@ class MapElement extends Component {
     };
 
     openLegendDialog = (legend) => {
-        this.legendSelectDialog.penDialog(this.prepareLegendSelectData(legend));
+        this.legendSelectDialog.openDialog(this.prepareLegendSelectData(legend));
     };
 
     prepareCountrySelectData = (iso) => {
