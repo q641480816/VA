@@ -6,7 +6,7 @@
 
 .description{
     height: 5vh;
-    min-height: 35px;
+    min-height: 25px;
     width: 100vw;
     padding-top: 5px;
     text-align: center;
@@ -27,6 +27,5 @@
     margin: auto;
     flex-direction: row;
     width: 55vw;
-    padding-top: 10px;
 }
 

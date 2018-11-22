@@ -22,6 +22,9 @@ class BaseDialog extends Component{
     }
 
     componentWillMount(){
+        this.setState({
+            title: this.props.title
+        })
     }
 
     componentDidMount() {
@@ -29,15 +32,17 @@ class BaseDialog extends Component{
     }
 
     componentWillReceiveProps(nextProps){
+        this.setState({
+            title: nextProps.title
+        })
     }
 
     componentWillUnmount() {
         this.props.onRef(null);
     }
 
-    handleClickOpen = (title) => {
+    handleClickOpen = () => {
         this.setState({
-            title: title,
             isOpen: true
         });
     };
@@ -48,7 +53,7 @@ class BaseDialog extends Component{
 
     render () {
         return(
-            <Dialog open={this.state.isOpen} maxWidth = {'lg'} onClose={this.handleClose}>
+            <Dialog open={this.state.isOpen} maxWidth = {'lg'} maxheight={'lg'} onClose={this.handleClose}>
                 <DialogTitle id="alert-dialog-title">{this.state.title}</DialogTitle>
                 <DialogContent>
                     {this.props.children}
@@ -69,7 +74,8 @@ const styles = theme => ({
 
 
 BaseDialog.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    title: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(BaseDialog);

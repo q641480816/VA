@@ -8,6 +8,8 @@ import CountrySelectDialog from "../countrySelectDialog/countrySelectDialog";
 import LegendSelectDialog from "../legendSelectDialog/legendSelectDialog";
 import {scaleLinear} from "d3-scale";
 
+import * as d3 from 'd3';
+
 class MapElement extends Component {
 
     constructor(props) {
@@ -66,7 +68,17 @@ class MapElement extends Component {
         }
 
         if (nextProps.selectedArea !== this.state.selectedArea) {
-            map.svg.selectAll("g").attr("transform", nextProps.selectedArea.projection);
+            let dimension = utilData.resizeDimension({
+                x: nextProps.selectedArea.projection.x,
+                y: nextProps.selectedArea.projection.y,
+                scale: nextProps.selectedArea.projection.scale
+            }, {
+                height: nextProps.mapClass.height.substring(0, nextProps.mapClass.height.length - 2),
+                width: nextProps.mapClass.width.substring(0, nextProps.mapClass.width.length - 2)
+            });
+
+            map.svg.selectAll("g").attr("transform", "translate(" + dimension.x + "," + dimension.y + ")scale(" + dimension.scale + ")");
+            //map.svg.selectAll("g").attr("center", "(-900,0)");
         }
 
         this.setState({
@@ -92,7 +104,7 @@ class MapElement extends Component {
     }
 
     getPupUp = (geography, data) => {
-        let content = data === null ? 'No Fate Available' : data.numberOfThings;
+        let content = data.numberOfThings === -1 ? 'No Data Available' : utilData.typePair[this.state.selectedType].display + ": " + data.numberOfThings.toPrecision(4) + utilData.typePair[this.state.selectedType].separator;
         return (
             '<div class="hoverinfo" style="display: flex; flex-direction: column">' +
             '<span>' + geography.properties.name + '</span>' +
@@ -111,6 +123,7 @@ class MapElement extends Component {
             selectedCountry: {},
             world: source.worldAverage,
             source: source,
+            groupedDataSet: this.state.data.groupedDataSet,
             separator: this.state.data.separator,
             selectType: this.state.selectedType
         };
@@ -130,7 +143,13 @@ class MapElement extends Component {
 
     prepareLegendSelectData = (legend) => {
         let paletteScale = scaleLinear().domain([legend.value[0], legend.value[1] > 100 ? legend.value[0] + 20 : legend.value[1]]).range(["#EFEFFF", utilData.colors.world.dark]);
-        let data = {name: this.state.selectedType, rawData: this.state.data, legend: legend, selectedYear: this.state.selectedYear, separator: this.state.data.separator,};
+        let data = {
+            name: this.state.selectedType,
+            rawData: this.state.data,
+            legend: legend,
+            selectedYear: this.state.selectedYear,
+            separator: this.state.data.separator,
+        };
         let chart = {name: legend.display, color: utilData.colors.world.dark, children: []};
         Object.keys(utilData.mapProjection).forEach((key) => {
             let mapP = utilData.mapProjection[key];
@@ -148,9 +167,11 @@ class MapElement extends Component {
                 });
                 if (continent.children.length > 0) {
                     let sum = 0;
-                    continent.children.forEach((c) => {sum += c.size});
+                    continent.children.forEach((c) => {
+                        sum += c.size
+                    });
                     let paletteScale = scaleLinear().domain([legend.value[0], legend.value[1] > 100 ? legend.value[0] + 20 : legend.value[1]]).range(["#EFEFFF", utilData.colors.country.dark]);
-                    continent.color = paletteScale(sum/continent.children.length);
+                    continent.color = paletteScale(sum / continent.children.length);
                     chart.children.push(continent);
                 }
             }
@@ -172,7 +193,7 @@ class MapElement extends Component {
             },
             done: (datamap) => {
                 datamap.svg.selectAll('.datamaps-subunit').on('click', (geography) => {
-                    this.countrySelectDialog.openDialog(this.prepareCountrySelectData(geography.properties.iso), this.state.selectedType);
+                    this.countrySelectDialog.openDialog(this.prepareCountrySelectData(geography.properties.iso), this.state.selectedType, this.state.selectedYear);
                 });
             },
             data: this.state.data.dataset,
@@ -189,7 +210,16 @@ class MapElement extends Component {
             }
         });
 
-        map.svg.selectAll("g").attr("transform", this.state.selectedArea.projection);
+        let dimension = utilData.resizeDimension({
+            x: this.state.selectedArea.projection.x,
+            y: this.state.selectedArea.projection.y,
+            scale: this.state.selectedArea.projection.scale
+        }, {
+            height: this.state.mapClass.height.substring(0, this.state.mapClass.height.length - 2),
+            width: this.state.mapClass.width.substring(0, this.state.mapClass.width.length - 2)
+        });
+
+        map.svg.selectAll("g").attr("transform", "translate(" + dimension.x + "," + dimension.y + ")scale(" + dimension.scale + ")");
         return map;
     };
 

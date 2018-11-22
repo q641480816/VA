@@ -19,7 +19,7 @@ public class CountryYear {
 
     private double dailyConsumption;
 
-    private int death;
+    private double death;
 
     private double cancerDeathInPercent;
 
@@ -83,11 +83,11 @@ public class CountryYear {
         this.dailyConsumption = dailyConsumption;
     }
 
-    public int getDeath() {
+    public double getDeath() {
         return death;
     }
 
-    public void setDeath(int death) {
+    public void setDeath(double death) {
         this.death = death;
     }
 

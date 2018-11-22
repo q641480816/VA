@@ -24,6 +24,7 @@ class Map extends Component {
         super(props);
         this.state = {
             mapClass: null,
+            bottomPaddingTop: 0,
             data: null,
             selectedType: "prevalenceInPercent",
             yearSet: [],
@@ -57,6 +58,7 @@ class Map extends Component {
 
     componentDidMount() {
         window.addEventListener("resize", this.mapResize);
+        console.log(document.getElementById('bottom').clientHeight)
     }
 
     componentWillUnmount() {
@@ -109,7 +111,9 @@ class Map extends Component {
     };
 
     mapResize = () => {
-        this.setState({mapClass: this.prepareMapClass()});
+        this.setState({
+            mapClass: this.prepareMapClass()
+        });
     };
 
     prepareMapClass = () => {
@@ -179,6 +183,16 @@ class Map extends Component {
             }
             rawData[iso] = o;
         });
+        utilData.countryCodeISO.forEach((iso) => {
+            if (!dataset[iso]) {
+                dataset[iso] = {numberOfThings: -1, fillColor: '#ddd'};
+            }
+        });
+
+        let groupedDataSet = {};
+        this.state.data.dataSet.forEach((d) => {
+            groupedDataSet[d.key] = d;
+        });
 
         resource.dataset = dataset;
         resource.legendSet = legendSet;
@@ -187,6 +201,7 @@ class Map extends Component {
         resource.fullData.worldAverage = this.state.data["typeYearDataSet"][key]["average"];
         resource.separator = separator;
         resource.rawData = rawData;
+        resource.groupedDataSet = groupedDataSet;
 
         return resource;
     };
@@ -243,8 +258,8 @@ class Map extends Component {
                                     selectedYear={this.state.yearSet[this.state.yearSelected]}/>
                     </div>
                 </Card>
-                <div style={{width: '100vw', height: '6vh'}}>
-                    <div className={"bottom"}>
+                <div className={this.styles.bottomWrapper} style={{width: '100vw', height: '6vh'}}>
+                    <div id={"bottom"} className={this.styles.bottom}>
                         <div style={{width: '3vw', minWidth: '25px'}}>
                             {this.state.isAutoPlay ? <Pause onClick={() => this.togglePlay(false)}/> :
                                 <PlayArrow onClick={() => this.togglePlay(true)}/>}
@@ -274,7 +289,7 @@ const styles = theme => ({
     configBar: {
         borderRadius: 0,
         height: '6vh',
-        minHeight: '35px',
+        minHeight: '25px',
         backgroundColor: '#ffffff'
     },
     descriptionContent: {
@@ -295,6 +310,33 @@ const styles = theme => ({
         height: '65vh',
         paddingTop: '4.5vh',
         paddingBottom: '2.5vh'
+    },
+    bottom: {
+        display: "flex",
+        margin: "auto",
+        flexDirection: "row",
+        width: "55vw",
+        [theme.breakpoints.down('xs')]: {
+            paddingTop: "0px"
+        },
+        [theme.breakpoints.up('sm')]: {
+            paddingTop: "5px"
+        },
+        [theme.breakpoints.up('lg')]: {
+            paddingTop: "10px"
+        }
+    },
+    bottomWrapper: {
+        [theme.breakpoints.down('xs')]: {
+            marginTop: "-35px",
+            zIndex:100
+        },
+        [theme.breakpoints.up('sm')]: {
+            marginTop: "0px"
+        },
+        [theme.breakpoints.up('md')]: {
+            marginTop: "0px"
+        }
     }
 });
 
