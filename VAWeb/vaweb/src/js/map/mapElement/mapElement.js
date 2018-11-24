@@ -8,8 +8,6 @@ import CountrySelectDialog from "../countrySelectDialog/countrySelectDialog";
 import LegendSelectDialog from "../legendSelectDialog/legendSelectDialog";
 import {scaleLinear} from "d3-scale";
 
-import * as d3 from 'd3';
-
 class MapElement extends Component {
 
     constructor(props) {
@@ -40,6 +38,7 @@ class MapElement extends Component {
         this.prepareCountrySelectData = this.prepareCountrySelectData.bind(this);
         this.prepareLegendSelectData = this.prepareLegendSelectData.bind(this);
         this.openLegendDialog = this.openLegendDialog.bind(this);
+        this.openCountryDialog = this.openCountryDialog.bind(this);
     }
 
     componentWillMount() {
@@ -55,6 +54,7 @@ class MapElement extends Component {
     }
 
     componentDidMount() {
+        this.props.onRef(this);
         this.setState({
             map: this.drawMap()
         });
@@ -100,6 +100,7 @@ class MapElement extends Component {
     }
 
     componentWillUnmount() {
+        this.props.onRef(null);
         this.clearMap();
     }
 
@@ -193,7 +194,7 @@ class MapElement extends Component {
             },
             done: (datamap) => {
                 datamap.svg.selectAll('.datamaps-subunit').on('click', (geography) => {
-                    this.countrySelectDialog.openDialog(this.prepareCountrySelectData(geography.properties.iso), this.state.selectedType, this.state.selectedYear);
+                    this.openCountryDialog(geography.properties.iso);
                 });
             },
             data: this.state.data.dataset,
@@ -269,6 +270,10 @@ class MapElement extends Component {
             .selectAll('.datamaps-subunit')
             .transition()
             .style('stroke', this.state.borderDefault);
+    };
+
+    openCountryDialog = (iso) => {
+        this.countrySelectDialog.openDialog(this.prepareCountrySelectData(iso), this.state.selectedType, this.state.selectedYear);
     };
 
     render() {

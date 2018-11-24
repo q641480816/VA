@@ -6,6 +6,7 @@ import GenderRadio from "./stepper/genderRadio"
 import SmokeRadio from "./stepper/smokeRadio"
 import Grid from '@material-ui/core/Grid';
 import PopulationPieChart from './chart/populationPieChart'
+import BaseDialog from "../component/baseDialog/baseDialog";
 
 class Fate extends Component {
 
@@ -22,12 +23,12 @@ class Fate extends Component {
         this.countries = new Set();
         this.countryData = {};
         this.countryGenderData = {
-            male : {},
-            female : {}
+            male: {},
+            female: {}
         };
         this.countryDeathData = {
-            cancer : {},
-            death : {}
+            cancer: {},
+            death: {}
         };
 
         this.prepareSteps = this.prepareSteps.bind(this);
@@ -36,6 +37,12 @@ class Fate extends Component {
 
     componentWillMount() {
         this.preCalculateData();
+    }
+
+    componentDidMount() {
+        setTimeout(() => {
+            this.attantion.handleClickOpen();
+        },300)
     }
 
     componentWillUpdate(nextProps, nextState, nextContext) {
@@ -91,20 +98,20 @@ class Fate extends Component {
         };
 
         const computeCountryGenderData = (gender) => {
-            const genderData = gender === 'male'?
+            const genderData = gender === 'male' ?
                 this.props.data.typeYearDataSet.maleInPercent.data : this.props.data.typeYearDataSet.femaleInPercent.data;
             const genderDataYears = Object.keys(genderData);
             genderDataYears.forEach((key) => {
                 genderData[key].forEach((record) => {
-                  const country = record.countryName;
-                  if (this.countryGenderData[gender][country]) {
-                      this.countryGenderData[gender][country] += gender === 'male'?
-                          record.maleInPercent : record.femaleInPercent;
-                  } else {
-                      this.countryGenderData[gender][country] = gender === 'male'?
-                          record.maleInPercent : record.femaleInPercent;
-                  }
-               })
+                    const country = record.countryName;
+                    if (this.countryGenderData[gender][country]) {
+                        this.countryGenderData[gender][country] += gender === 'male' ?
+                            record.maleInPercent : record.femaleInPercent;
+                    } else {
+                        this.countryGenderData[gender][country] = gender === 'male' ?
+                            record.maleInPercent : record.femaleInPercent;
+                    }
+                })
             });
             this.countries.forEach((key) => {
                 this.countryGenderData[gender][key] = this.countryGenderData[gender][key] / (genderDataYears.length)
@@ -112,17 +119,17 @@ class Fate extends Component {
         };
 
         const computeCountryDeathData = (type) => {
-            const deathData = type === 'cancer'?
+            const deathData = type === 'cancer' ?
                 this.props.data.typeYearDataSet.cancerDeathInPercent.data : this.props.data.typeYearDataSet.death.data;
             const deathDataYears = Object.keys(deathData);
             deathDataYears.forEach((key) => {
                 deathData[key].forEach((record) => {
                     const country = record.countryName;
                     if (this.countryDeathData[type][country]) {
-                        this.countryDeathData[type][country] += type === 'cancer'?
+                        this.countryDeathData[type][country] += type === 'cancer' ?
                             record.cancerDeathInPercent : record.death;
                     } else {
-                        this.countryDeathData[type][country] = type === 'cancer'?
+                        this.countryDeathData[type][country] = type === 'cancer' ?
                             record.cancerDeathInPercent : record.death;
                     }
                 })
@@ -142,7 +149,7 @@ class Fate extends Component {
                 });
             });
             this.countries.forEach((country) => {
-                if (countriesWithoutData.has(country)){
+                if (countriesWithoutData.has(country)) {
                     this.countries.delete(country);
                 }
 
@@ -192,13 +199,13 @@ class Fate extends Component {
             case 0:
                 return 'Smokers in ' + country;
             case 1:
-                return this.state.gender? gender.replace(/^./, str => str.toUpperCase()) + ' smokers in ' + country : 'Please Select Your Gender';
+                return this.state.gender ? gender.replace(/^./, str => str.toUpperCase()) + ' smokers in ' + country : 'Please Select Your Gender';
             case 2:
                 if (this.state.isSmoker) {
-                   return 'Died Of Smoking in ' + country;
+                    return 'Died Of Smoking in ' + country;
                 } else {
                     if (this.state.willBeSmoker === null) {
-                       return 'Will you become a somker?';
+                        return 'Will you become a somker?';
                     } else if (this.state.willBeSmoker) {
                         return 'You might be smoker one day!';
                     } else if (this.state.willBeSmoker === false) {
@@ -266,8 +273,7 @@ class Fate extends Component {
             return data;
         } else {
             return ({
-                labels: [
-                ],
+                labels: [],
                 datasets: [{
                     data: [100],
                     backgroundColor: [
@@ -282,50 +288,49 @@ class Fate extends Component {
     };
 
     prepareDeathData = (country, isSmoker) => {
-       if (isSmoker || this.state.willBeSmoker) {
-           const cancerData = this.countryDeathData['cancer'];
-           const deathData = this.countryDeathData['death'];
-           const cancerDeaths = cancerData[country]? parseFloat(cancerData[country]).toFixed(2) : 0;
-           const deaths = deathData[country]? parseFloat(deathData[country]).toFixed(2) : 0;
-           const otherDeaths = deaths - cancerDeaths;
-           const normalDeaths = 100 - cancerDeaths - otherDeaths;
-           const data = {
-               labels: [
-                   'Die of Cancer',
-                   'Die of other smoking diseases',
-                   'Normal Death'
-               ],
-               datasets: [{
-                   data: [cancerDeaths, otherDeaths, normalDeaths],
-                   backgroundColor: [
-                       '#00073d',
-                       '#4f3618',
-                       '#e2ceb5',
-                   ],
-                   hoverBackgroundColor: [
-                       '#1f3b5e',
-                       '#845d2d',
-                       '#e2ceb5',
-                   ]
-               }]
-           };
-           return data;
-       } else {
-           return ({
-               labels: [
-               ],
-               datasets: [{
-                   data: [100],
-                   backgroundColor: [
-                       '#e2ceb5',
-                   ],
-                   hoverBackgroundColor: [
-                       '#e2ceb5',
-                   ]
-               }]
-           });
-       }
-   };
+        if (isSmoker || this.state.willBeSmoker) {
+            const cancerData = this.countryDeathData['cancer'];
+            const deathData = this.countryDeathData['death'];
+            const cancerDeaths = cancerData[country] ? parseFloat(cancerData[country]).toFixed(2) : 0;
+            const deaths = deathData[country] ? parseFloat(deathData[country]).toFixed(2) : 0;
+            const otherDeaths = deaths - cancerDeaths;
+            const normalDeaths = 100 - cancerDeaths - otherDeaths;
+            const data = {
+                labels: [
+                    'Die of Cancer',
+                    'Die of other smoking diseases',
+                    'Normal Death'
+                ],
+                datasets: [{
+                    data: [cancerDeaths, otherDeaths, normalDeaths],
+                    backgroundColor: [
+                        '#00073d',
+                        '#4f3618',
+                        '#e2ceb5',
+                    ],
+                    hoverBackgroundColor: [
+                        '#1f3b5e',
+                        '#845d2d',
+                        '#e2ceb5',
+                    ]
+                }]
+            };
+            return data;
+        } else {
+            return ({
+                labels: [],
+                datasets: [{
+                    data: [100],
+                    backgroundColor: [
+                        '#e2ceb5',
+                    ],
+                    hoverBackgroundColor: [
+                        '#e2ceb5',
+                    ]
+                }]
+            });
+        }
+    };
 
     preparePieOption = () => {
         return {
@@ -406,17 +411,23 @@ class Fate extends Component {
     };
 
     render() {
-        console.log(this.state);
         return (
-            <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-            >
-                {this.renderStepper()}
-                {this.renderPieChart()}
-            </Grid>
+            <div>
+                <Grid
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
+                    {this.renderStepper()}
+                    {this.renderPieChart()}
+                </Grid>
+                <BaseDialog title={"Attention"} onRef={instance => {
+                    this.attantion = instance;
+                }}>
+                    Please follow the steps, we will come out a smoking related result for you base on our data.
+                </BaseDialog>
+            </div>
         );
     }
 }

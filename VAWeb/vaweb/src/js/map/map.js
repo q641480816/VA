@@ -31,13 +31,15 @@ class Map extends Component {
             yearSelected: 0,
             isAutoPlay: false,
             mapBoxHeight: 72,
-            selectedArea: utilData.mapProjection['world'].key
+            selectedArea: utilData.mapProjection['world'].key,
+            selectedCountry: 'default'
         };
 
         this.styles = this.props.classes;
 
         this.prepareMapClass = this.prepareMapClass.bind(this);
         this.processData = this.processData.bind(this);
+        this.prepareCountries = this.prepareCountries.bind(this);
         this.renderDescription = this.renderDescription.bind(this);
         this.renderSelect = this.renderSelect.bind(this);
         this.renderSlider = this.renderSlider.bind(this);
@@ -46,6 +48,7 @@ class Map extends Component {
         this.play = this.play.bind(this);
         this.togglePlay = this.togglePlay.bind(this);
         this.mapResize = this.mapResize.bind(this);
+        this.openCountryDialog = this.openCountryDialog.bind(this);
     }
 
     componentWillMount() {
@@ -132,6 +135,18 @@ class Map extends Component {
         }
     };
 
+    prepareCountries = () => {
+        let countries = {};
+        let key = utilData.typePair[this.state.selectedType]["key"];
+        let data = this.state.data["typeYearDataSet"][key]["data"][this.state.yearSet[this.state.yearSelected]];
+        countries['default'] = {key: 'default', display: 'Select Country'};
+        data.forEach((o) => {//
+            let iso = o.countryCode;
+            countries[iso] = {key: iso, display: o.countryName};
+        });
+        return countries;
+    };
+
     processData = () => {
         let resource = {};
         let key = utilData.typePair[this.state.selectedType]["key"];
@@ -140,6 +155,7 @@ class Map extends Component {
 
         let rawData = {};
         let dataset = {};
+        let countries = [];
 
         let onlyValues = data.map((o) => {
             return o[key];
@@ -182,7 +198,9 @@ class Map extends Component {
                 legendSet[i] = l;
             }
             rawData[iso] = o;
+            countries.push({key: iso, display: o.countryName})
         });
+
         utilData.countryCodeISO.forEach((iso) => {
             if (!dataset[iso]) {
                 dataset[iso] = {numberOfThings: -1, fillColor: '#ddd'};
@@ -240,14 +258,29 @@ class Map extends Component {
         }
     };
 
+    openCountryDialog = (iso) => {
+        this.mapElement.openCountryDialog(iso);
+    };
+
     render() {
         return (
             <div className={"map-base"}>
                 <Card>
                     <AppBar position="static" className={this.styles.configBar}>
-                        <Toolbar style={{minHeight: '35px', height: '6vh'}}>
-                            {this.renderSelect("type", "selectedType", utilData.typePair, this.onSelectTypeChange, "Types")}
-                            {this.renderSelect("area", "selectedArea", utilData.mapProjection, this.onSelectedAreaChange, "Areas")}
+                        <Toolbar style={{minHeight: '35px', height: '6vh', flexDirection: 'row', flex: 1}}>
+                            <div style={{flex: 1, justifyContent: 'flex-start'}}>
+                                <Tooltip title={"Select different type of data set"}>
+                                    {this.renderSelect("type", "selectedType", utilData.typePair, this.onSelectTypeChange, "Types")}
+                                </Tooltip>
+                                <Tooltip title={"Zone in to different areas"}>
+                                    {this.renderSelect("area", "selectedArea", utilData.mapProjection, this.onSelectedAreaChange, "Areas")}
+                                </Tooltip>
+                                <Tooltip title={"If the desired country is too small on map, please select here"}>
+                                    {this.renderSelect("country", "selectedCountry", this.prepareCountries(), (event) => {
+                                        this.openCountryDialog(event.target.value)
+                                    }, "Country")}
+                                </Tooltip>
+                            </div>
                         </Toolbar>
                     </AppBar>
                     {this.renderDescription()}
@@ -255,7 +288,10 @@ class Map extends Component {
                         <MapElement mapClass={this.state.mapClass} data={this.processData()}
                                     selectedArea={utilData.mapProjection[this.state.selectedArea]}
                                     selectedType={this.state.selectedType}
-                                    selectedYear={this.state.yearSet[this.state.yearSelected]}/>
+                                    selectedYear={this.state.yearSet[this.state.yearSelected]}
+                                    onRef={instance => {
+                                        this.mapElement = instance;
+                                    }}/>
                     </div>
                 </Card>
                 <div className={this.styles.bottomWrapper} style={{width: '100vw', height: '6vh'}}>
@@ -329,7 +365,7 @@ const styles = theme => ({
     bottomWrapper: {
         [theme.breakpoints.down('xs')]: {
             marginTop: "-35px",
-            zIndex:100
+            zIndex: 100
         },
         [theme.breakpoints.up('sm')]: {
             marginTop: "0px"

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core";
-import {Line, Radar} from 'react-chartjs-2';
+import {Radar} from 'react-chartjs-2';
 
 import utilData from "../../../common/utils";
 
