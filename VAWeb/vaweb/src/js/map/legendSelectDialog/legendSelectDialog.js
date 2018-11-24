@@ -134,7 +134,7 @@ class LegendSelectDialog extends Component {
                 if (value) break;
             }
         }
-        return this.state.selectedType.display + " in " + section + " is " + value + " in " + this.state.selectedYear + (path.length === 2 ? " in average" : "");
+        return this.state.selectedType.display + " in " + section + " is " + value + " in " + this.state.selectedYear + (path.length === 2 ? " in average" : "") + " in the range of " + this.state.data.legend.display;
     };
 
     handleMouseOver = (node) => {
