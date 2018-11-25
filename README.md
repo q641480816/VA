@@ -1,4 +1,4 @@
-# Visual Analytics Aroject
+# Visual Analytics Project
 ## An Interactive Visual Analytics Dashboard for Exploring and Analyzing Smoking Data
 
 ### 1. Instruction is available in user guide
